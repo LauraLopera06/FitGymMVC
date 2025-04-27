@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Inicio Usuario";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio Admin</title>
+    <link rel="stylesheet" href="~/css/InicioUsuario.css" />
+</head>
+<body>
+    <div class="contenedor-admin">
+        <div class="encabezado">
+            <div class="icono-admin">
+                <img src="~/img/iconoPersona.png" alt="Perfil" />
+            </div>
+        </div>
+
+        <div class="contenido">
+            <h2>FITGYM<br />¿QUÉ DESEAS HACER?</h2>
+            <a asp-controller="Clases" asp-action="Guardar" class="btn-admin">CREAR CLASE</a>
+            <a asp-controller="Rutinas" asp-action="Guardar" class="btn-admin">CREAR RUTINA</a>
+            <a asp-controller="Reservas" asp-action="Guardar" class="btn-admin">RESERVAR CLASE</a>
+
+            <a asp-controller="Home" asp-action="Bienvenida" class="btn-cerrar">CERRAR SESIÓN</a>
+        </div>
+
+        <div class="pie"></div>
+    </div>
+</body>
+</html>

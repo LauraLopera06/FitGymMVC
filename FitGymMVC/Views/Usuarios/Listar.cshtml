@@ -1,0 +1,43 @@
+﻿@model List<FitGymMVC.Models.UsuariosModel>
+@{
+    ViewData["Title"] = "Listar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        Listar Usuarios
+    </div>
+    <div class="card-body">
+        <a asp-action="Guardar" asp-controller="Usuarios" class="btn btn-success">Crear nuevo</a>
+        <hr />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cedula</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th>FechaNacimiento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Nombre</td>
+                        <td>@item.Cedula</td>
+                        <td>@item.Telefono</td>
+                        <td>@item.Correo</td>
+                        <td>@item.FechaNacimiento</td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+

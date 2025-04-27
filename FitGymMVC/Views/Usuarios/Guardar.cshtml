@@ -1,0 +1,47 @@
+﻿@model FitGymMVC.Models.UsuariosModel
+
+@{
+    ViewData["Title"] = "Crear Cuenta";
+    Layout = null; // Para que no use el layout principal
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Crear Cuenta</title>
+    <link rel="stylesheet" href="~/css/Guardar.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado"></div>
+
+        <form asp-action="Guardar" method="post" class="formulario-registro">
+            <h2>Registro de Usuario</h2>
+
+            <input asp-for="Nombre" class="form-input" placeholder="Nombre" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+
+            <input asp-for="Cedula" class="form-input" placeholder="Cédula" />
+            <span asp-validation-for="Cedula" class="text-danger"></span>
+
+            <input asp-for="Telefono" class="form-input" placeholder="Teléfono" />
+            <span asp-validation-for="Telefono" class="text-danger"></span>
+
+            <input asp-for="Correo" class="form-input" placeholder="Correo" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+
+            <input asp-for="FechaNacimiento" class="form-input" type="date" placeholder="Fecha de nacimiento" />
+            <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+
+            <div class="botones">
+                <button type="submit" class="btn crear">CREAR</button>
+                <a asp-controller="Home" asp-action="Bienvenida" class="btn salir">SALIR</a>
+            </div>
+
+
+        </form>
+
+    </div>
+</body>
+</html>

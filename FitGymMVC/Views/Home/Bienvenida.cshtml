@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null; // Para que no use el layout principal
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cuenta Creada</title>
+    <link rel="stylesheet" href="~/css/bienvenida.css" />
+</head>
+<body>
+    <div class=".contenedor-central">
+        <div class="card">
+            <h1 class="logo">FITGYM</h1>
+            <img src="~/img/fitgym-models.png" class="models" />
+            <h2 class="welcome">BIENVENIDO</h2>
+            <a href="@Url.Action("Login", "Usuarios")" class="btn-iniciar">INICIAR</a>
+        </div>
+    </div>
+</body>
+</html>

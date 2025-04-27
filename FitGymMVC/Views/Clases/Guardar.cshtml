@@ -1,0 +1,64 @@
+﻿@model FitGymMVC.Models.ClasesModel
+
+@{
+    ViewData["Title"] = "Rutinas Cuenta";
+    Layout = null; // Para que no use el layout principal
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Clases</title>
+    <link rel="stylesheet" href="~/css/Guardar.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado"></div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            </div>
+        }
+
+        <form asp-action="Guardar" method="post" class="formulario-registro">
+            <h2>Registro de Clases</h2>
+
+            <input asp-for="Nombre" class="form-input" placeholder="Nombre" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+
+            <input asp-for="Descripcion" class="form-input" placeholder="Descripción" />
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+
+            <input asp-for="CuposLimites" type="number" class="form-input" placeholder="Cupos Límite" />
+            <span asp-validation-for="CuposLimites" class="text-danger"></span>
+
+            <input asp-for="Horario" type="time" class="form-input" placeholder="Horario" />
+            <span asp-validation-for="Horario" class="text-danger"></span>
+
+            <select asp-for="Fecha" class="form-input">
+                <option value="">Seleccione el dia</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+                <option value="Domingo">Domingo</option>
+            </select>
+            <span asp-validation-for="Fecha" class="text-danger"></span>
+
+            <div class="botones">
+                <button type="submit" class="btn crear">CREAR</button>
+                <a asp-controller="Home" asp-action="Bienvenida" class="btn salir">SALIR</a>
+            </div>
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+body {
+    background-color: #2c2c2c;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.error-container {
+    text-align: center;
+    background-color: #111;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+}
+
+    .error-container h1 {
+        font-size: 28px;
+        color: #ff5e5e;
+    }
+
+    .error-container p {
+        margin-top: 15px;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .error-container a {
+        background-color: #8000aa;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+    }

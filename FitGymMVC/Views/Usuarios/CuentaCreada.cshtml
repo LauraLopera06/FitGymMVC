@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Cuenta Creada";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cuenta Creada</title>
+    <link rel="stylesheet" href="~/css/CuentaCreada.css" />
+</head>
+<body>
+    <div class="contenedor-confirmacion">
+        <div class="caja-negra">
+            <a href="@Url.Action("Bienvenida", "Home")" class="cerrar">X</a>
+            <h1>¡FELICIDADES!</h1>
+            <div class="chulo">
+                <img src="~/img/iconoChulo.png" alt="Confirmación" />
+            </div>
+            <p class="mensaje">TU CUENTA HA SIDO<br />CREADA CORRECTAMENTE</p>
+        </div>
+        <div class="caja-morada">
+            <a href="@Url.Action("InicioUsuario", "Usuarios")" class="btn-continuar">CONTINUAR</a>
+        </div>
+    </div>
+</body>
+</html>

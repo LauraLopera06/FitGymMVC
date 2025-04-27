@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Error";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" href="~/css/Error.css" />
+</head>
+<body>
+    <div class="error-container">
+        <h1>¡Algo salió mal!</h1>
+        <p>Por favor, intenta nuevamente más tarde.</p>
+        <a href="@Url.Action("Bienvenida", "Home")">Volver al inicio</a>
+    </div>
+</body>
+</html>

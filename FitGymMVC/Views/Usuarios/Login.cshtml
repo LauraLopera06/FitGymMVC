@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null; // Para que no use el layout principal
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Login</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado"></div>
+
+        <div class="icono-usuario">
+            <img src="~/img/iconoPersona.png" class="models" />
+        </div>
+
+        <div class="campo">
+            <div class="icono-wrapper">
+                <img src="~/img/iconoMensaje.png" class="icono" />
+            </div>
+            <input type="email" placeholder="CORREO" />
+        </div>
+
+        <div class="campo">
+            <div class="icono-wrapper">
+                <img src="~/img/iconoLlave.png" class="icono" />
+            </div>
+            <input type="password" placeholder="CONTRASEÑA" />
+        </div>
+
+        <div class="links">
+            <a href="#">¿OLVIDASTE TU CONTRASEÑA?</a>
+            <a href="/Usuarios/Guardar">CREAR CUENTA</a>
+            <a href="#">AYUDA</a>
+        </div>
+
+
+        <button class="btn-ingresar" onclick="location.href='/Usuarios/InicioUsuario'">INGRESAR</button>
+
+
+    </div>
+</body>
+</html>
+
