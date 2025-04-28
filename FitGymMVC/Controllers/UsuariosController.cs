@@ -63,6 +63,11 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Ayuda()
+        {
+            return View();
+        }
     }
 
 }

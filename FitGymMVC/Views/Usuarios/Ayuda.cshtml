@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>¿Necesitas ayuda?</title>
+    <link rel="stylesheet" href="~/css/ayuda.css" />
+</head>
+<body>
+    <div class="contenedor-ayuda">
+        <h1>¿Necesitas ayuda para iniciar sesión?</h1>
+
+        <p>Si tienes problemas para acceder a tu cuenta, revisa los siguientes pasos:</p>
+        <ol>
+            <li>Verifica tu correo y contraseña: Asegúrate de que estás usando la dirección de correo y la contraseña correctos.</li>
+            <li>¿Olvidaste tu contraseña?: Puedes restablecerla haciendo clic en "¿Olvidaste tu contraseña?" y siguiendo las instrucciones.</li>
+            <li>Contacta al soporte: Si aún tienes problemas, envía un correo a soporte@fitgym.com.</li>
+        </ol>
+
+        <p class="mensaje-final">
+            Estamos aquí para ayudarte a disfrutar de tu experiencia en Fit Gym.<br>
+            ¡No dudes en contactarnos!
+        </p>
+
+        <a href="@Url.Action("Login", "Usuarios")" class="btn-salir">SALIR</a>
+    </div>
+</body>
+</html>
