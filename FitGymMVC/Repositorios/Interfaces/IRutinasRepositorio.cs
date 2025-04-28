@@ -6,6 +6,7 @@ namespace FitGymMVC.Repositorios.Interfaces
     {
         List<RutinasModel> Listar();
         RutinasModel Buscar(int id);
-        bool Guardar(RutinasModel Rutina);
+        int Guardar(RutinasModel Rutina);//cambio hecho para que devuelva ID de la rutina (para los ejercicios)
+
     }
 }

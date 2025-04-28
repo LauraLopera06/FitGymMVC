@@ -10,6 +10,12 @@ builder.Services.AddScoped<FitGymMVC.Servicios.UsuariosServicio>();
 builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IRutinasRepositorio, FitGymMVC.Repositorios.Implementaciones.RutinasRepositorio>();
 builder.Services.AddScoped<FitGymMVC.Servicios.RutinasServicio>();
 
+builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IEjerciciosRepositorio, FitGymMVC.Repositorios.Implementaciones.EjerciciosRepositorio>();
+builder.Services.AddScoped<FitGymMVC.Servicios.EjerciciosServicio>();
+
+builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IRutinaEjercicioRepositorio, FitGymMVC.Repositorios.Implementaciones.RutinaEjercicioRepositorio>();
+builder.Services.AddScoped<FitGymMVC.Servicios.RutinaEjercicioServicio>();
+
 builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IClasesRepositorio, FitGymMVC.Repositorios.Implementaciones.ClasesRepositorio>();
 builder.Services.AddScoped<FitGymMVC.Servicios.ClasesServicio>();
 

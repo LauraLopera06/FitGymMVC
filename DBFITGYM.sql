@@ -22,18 +22,20 @@ CREATE TABLE Rutinas(
 );
 GO
 CREATE TABLE Ejercicios (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Id INT PRIMARY KEY IDENTITY(1,1),
     Nombre VARCHAR(255) NOT NULL,
     GrupoMuscular VARCHAR(255) NOT NULL
 );
+GO
 
 CREATE TABLE RutinaEjercicio (
-    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Id INT PRIMARY KEY IDENTITY(1,1),
     IdRutina INT NOT NULL,
     IdEjercicio INT NOT NULL,
-    FOREIGN KEY (IdRutina) REFERENCES Rutina(Id),
+    FOREIGN KEY (IdRutina) REFERENCES Rutinas(Id),
     FOREIGN KEY (IdEjercicio) REFERENCES Ejercicios(Id)
 );
+GO
 
 
 CREATE TABLE Clases(
@@ -74,6 +76,34 @@ INSERT INTO Rutinas (Nombre, Descripcion, NivelDificultad) VALUES
 ('Rutina Full Body', 'Entrenamiento para todo el cuerpo', 'Intermedio'),
 ('Estiramiento', 'Movilidad y flexibilidad', 'Fácil');
 GO
+
+INSERT INTO Ejercicios (Nombre, GrupoMuscular) VALUES
+('Sentadillas', 'Piernas'),
+('Flexiones', 'Pecho'),
+('Burpees', 'Cuerpo Completo'),
+('Plancha', 'Abdomen'),
+('Press de Banca', 'Pecho'),
+('Peso Muerto', 'Espalda'),
+('Remo con Barra', 'Espalda'),
+('Curl de Bíceps', 'Brazos'),
+('Extensión de Tríceps', 'Brazos'),
+('Zancadas', 'Piernas');
+GO
+
+INSERT INTO RutinaEjercicio (IdRutina, IdEjercicio) VALUES
+(1, 3), -- Cardio Básico incluye Burpees
+(1, 4), -- Cardio Básico incluye Plancha
+(2, 5), -- Fuerza Intermedia incluye Press de Banca
+(2, 6), -- Fuerza Intermedia incluye Peso Muerto
+(2, 7), -- Fuerza Intermedia incluye Remo con Barra
+(3, 3), -- HIIT Avanzado incluye Burpees
+(3, 1), -- HIIT Avanzado incluye Sentadillas
+(4, 1), -- Full Body incluye Sentadillas
+(4, 2), -- Full Body incluye Flexiones
+(4, 8), -- Full Body incluye Curl de Bíceps
+(5, 10); -- Estiramiento incluye Zancadas
+GO
+
 
 INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion) VALUES
 ('Zumba', 'Lunes', '09:00', '10:00', 15, 'Clase de baile cardiovascular'),
@@ -121,6 +151,7 @@ AS
 BEGIN
 	INSERT INTO Rutinas(Nombre, Descripcion, NivelDificultad)
 	VALUES (@Nombre, @Descripcion, @NivelDificultad)
+	SELECT SCOPE_IDENTITY(); -- Retornar el ID nuevo (para el tema de ejercicios)
 END
 GO
 CREATE PROCEDURE sp_EditarRutina(@Id INT, @Nombre VARCHAR(100), @Descripcion VARCHAR(100), @NivelDificultad VARCHAR(15))
@@ -130,6 +161,86 @@ BEGIN
 END
 GO
 CREATE PROCEDURE sp_EliminarRutina(@Id INT) AS DELETE FROM Rutinas WHERE Id = @Id
+GO
+
+
+CREATE PROCEDURE sp_ListarEjercicios
+AS
+SELECT * FROM Ejercicios
+GO
+CREATE PROCEDURE sp_ObtenerEjercicio
+    @Id INT
+AS
+SELECT * FROM Ejercicios WHERE Id = @Id
+GO
+
+CREATE PROCEDURE sp_GuardarEjercicio
+    @Nombre VARCHAR(255),
+    @GrupoMuscular VARCHAR(255)
+AS
+BEGIN
+    INSERT INTO Ejercicios (Nombre, GrupoMuscular)
+    VALUES (@Nombre, @GrupoMuscular)
+END
+GO
+
+CREATE PROCEDURE sp_EditarEjercicio
+    @Id INT,
+    @Nombre VARCHAR(255),
+    @GrupoMuscular VARCHAR(255)
+AS
+BEGIN
+    UPDATE Ejercicios
+    SET Nombre = @Nombre,
+        GrupoMuscular = @GrupoMuscular
+    WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE sp_EliminarEjercicio
+    @Id INT
+AS
+DELETE FROM Ejercicios WHERE Id = @Id
+GO
+
+CREATE PROCEDURE sp_ListarRutinaEjercicios
+AS
+SELECT * FROM RutinaEjercicio
+GO
+
+CREATE PROCEDURE sp_ObtenerRutinaEjercicio
+    @Id INT
+AS
+SELECT * FROM RutinaEjercicio WHERE Id = @Id
+GO
+
+CREATE PROCEDURE sp_GuardarRutinaEjercicio
+    @IdRutina INT,
+    @IdEjercicio INT
+AS
+BEGIN
+    INSERT INTO RutinaEjercicio (IdRutina, IdEjercicio)
+    VALUES (@IdRutina, @IdEjercicio)
+END
+GO
+
+CREATE PROCEDURE sp_EditarRutinaEjercicio
+    @Id INT,
+    @IdRutina INT,
+    @IdEjercicio INT
+AS
+BEGIN
+    UPDATE RutinaEjercicio
+    SET IdRutina = @IdRutina,
+        IdEjercicio = @IdEjercicio
+    WHERE Id = @Id
+END
+GO
+
+CREATE PROCEDURE sp_EliminarRutinaEjercicio
+    @Id INT
+AS
+DELETE FROM RutinaEjercicio WHERE Id = @Id
 GO
 
 

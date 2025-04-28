@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <title>FitGym Rutinas</title>
-    <link rel="stylesheet" href="~/css/Guardar.css" />
+    <link rel="stylesheet" href="~/css/GuardarRutina.css" />
 </head>
 <body>
     <div class="contenedor-central">
@@ -32,6 +32,22 @@
                 <option value="Difícil">Difícil</option>
             </select>
             <span asp-validation-for="NivelDificultad" class="text-danger"></span>
+
+            <div class="cuadro-blanco">
+                @if (ViewBag.ListaEjercicios != null)
+                {
+                    foreach (var ejercicio in (List<FitGymMVC.Models.EjerciciosModel>)ViewBag.ListaEjercicios)
+                    {
+                        <div style="margin-bottom: 8px;">
+                            <input type="checkbox" name="IdsEjerciciosSeleccionados" value="@ejercicio.Id" id="ejercicio_@ejercicio.Id" />
+                            <label for="ejercicio_@ejercicio.Id">@ejercicio.Nombre</label>
+                        </div>
+                    }
+                }
+            </div>
+            <span asp-validation-for="IdsEjerciciosSeleccionados" class="text-danger"></span>
+
+
 
 
             <div class="botones">

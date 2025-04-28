@@ -12,6 +12,10 @@ namespace FitGymMVC.Models
         public string Descripcion { get; set; }
         [Required(ErrorMessage = "El campo Nivel de dificultad es obligatorio")]
         public string NivelDificultad { get; set; }
+
+        [NotMapped]
+        public List<int> IdsEjerciciosSeleccionados { get; set; }
+
     }
 }
 

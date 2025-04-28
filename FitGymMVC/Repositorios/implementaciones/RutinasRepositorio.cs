@@ -84,7 +84,7 @@ public class RutinasRepositorio : IRutinasRepositorio
             }
     }
 
-    public bool Guardar(RutinasModel Rutina)
+    public int Guardar(RutinasModel Rutina)
     {
             try
             {
@@ -96,13 +96,14 @@ public class RutinasRepositorio : IRutinasRepositorio
                     cmd.Parameters.AddWithValue("Nombre", Rutina.Nombre);
                     cmd.Parameters.AddWithValue("Descripcion", Rutina.Descripcion);
                     cmd.Parameters.AddWithValue("NivelDificultad", Rutina.NivelDificultad);
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    var id = Convert.ToInt32(cmd.ExecuteScalar());
+                    return id;
+
                 }
             }
             catch (Exception)
             {
-                return false;
+                return 0;
             }
     }
 }

@@ -21,7 +21,7 @@ namespace FitGymMVC.Servicios
         {
             return _repository.Buscar(id);
         }
-        public bool Guardar(RutinasModel Rutina) 
+        public int Guardar(RutinasModel Rutina) 
         { 
             return _repository.Guardar(Rutina); 
         }
