@@ -38,8 +38,11 @@
             <input asp-for="CuposLimites" type="number" class="form-input" placeholder="Cupos Límite" />
             <span asp-validation-for="CuposLimites" class="text-danger"></span>
 
-            <input asp-for="Horario" type="time" class="form-input" placeholder="Horario" />
-            <span asp-validation-for="Horario" class="text-danger"></span>
+            <input asp-for="HorarioInicio" type="time" class="form-input" placeholder="HorarioInicio" />
+            <span asp-validation-for="HorarioInicio" class="text-danger"></span>
+
+            <input asp-for="HorarioFin" type="time" class="form-input" placeholder="HorarioFin" />
+            <span asp-validation-for="HorarioFin" class="text-danger"></span>
 
             <select asp-for="Fecha" class="form-input">
                 <option value="">Seleccione el dia</option>

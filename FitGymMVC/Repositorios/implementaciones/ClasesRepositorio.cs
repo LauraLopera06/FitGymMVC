@@ -36,7 +36,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 Nombre = dr["Nombre"].ToString(),
                                 CuposLimites = Convert.ToInt32(dr["CuposLimites"]),
                                 Fecha = dr["Fecha"].ToString(),
-                                Horario = (TimeSpan)dr["Horario"],
+                                HorarioInicio = (TimeSpan)dr["HorarioInicio"],
+                                HorarioFin = (TimeSpan)dr["HorarioFin"],
                                 Descripcion = dr["Descripcion"].ToString()
                             });
                         }
@@ -75,7 +76,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 Nombre = dr["Nombre"].ToString(),
                                 CuposLimites = Convert.ToInt32(dr["CuposLimites"]),
                                 Fecha = dr["Fecha"].ToString(),
-                                Horario = (TimeSpan)dr["Horario"],
+                                HorarioInicio = (TimeSpan)dr["HorarioInicio"],
+                                HorarioFin = (TimeSpan)dr["HorarioFin"],
                                 Descripcion = dr["Descripcion"].ToString()
                             };
                         }
@@ -101,7 +103,8 @@ public class ClasesRepositorio : IClasesRepositorio
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("Nombre", Clase.Nombre);
                     cmd.Parameters.AddWithValue("Fecha", Clase.Fecha);
-                    cmd.Parameters.AddWithValue("Horario", Clase.Horario);
+                    cmd.Parameters.AddWithValue("HorarioInicio", Clase.HorarioInicio);
+                    cmd.Parameters.AddWithValue("HorarioFin", Clase.HorarioFin);
                     cmd.Parameters.AddWithValue("CuposLimites", Clase.CuposLimites);
                     cmd.Parameters.AddWithValue("Descripcion", Clase.Descripcion);
                     cmd.ExecuteNonQuery();

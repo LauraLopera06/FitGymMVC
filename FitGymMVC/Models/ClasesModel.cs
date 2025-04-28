@@ -10,8 +10,11 @@ namespace FitGymMVC.Models
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "El campo Horario es obligatorio")]
-        public TimeSpan? Horario { get; set; }
+        [Required(ErrorMessage = "El campo Horario de inicio es obligatorio")]
+        public TimeSpan? HorarioInicio { get; set; }
+
+        [Required(ErrorMessage = "El campo Horario de finalización es obligatorio")]
+        public TimeSpan? HorarioFin { get; set; }
 
         [Required(ErrorMessage = "El campo Cupos Limites es obligatorio")]
         public int? CuposLimites { get; set; }

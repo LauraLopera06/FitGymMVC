@@ -26,8 +26,10 @@ namespace FitGymMVC.Servicios
             var clasesExistentes = _repository.Listar();
 
             bool Conflicto = clasesExistentes.Any(c =>
-                c.Fecha == Clase.Fecha &&
-                c.Horario.Value == Clase.Horario.Value);
+                 c.Fecha == Clase.Fecha &&
+    ((Clase.HorarioInicio.Value < c.HorarioFin.Value && Clase.HorarioFin.Value > c.HorarioInicio.Value) ||
+        (Clase.HorarioFin.Value > c.HorarioInicio.Value && Clase.HorarioInicio.Value < c.HorarioFin.Value)
+    ));
 
             if (Conflicto)
             {
