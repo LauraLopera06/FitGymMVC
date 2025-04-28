@@ -5,7 +5,7 @@ namespace FitGymMVC.Models
 {
     public class ReservasModel
     {
-        [Key] public int Id { get; set; }
+        public int Id { get; set; }
         [Required(ErrorMessage = "El campo Cupos Disponibles es obligatorio")]
         public int CuposDisponibles { get; set; }
         [Required(ErrorMessage = "El campo Disponibilidad es obligatorio")]

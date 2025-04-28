@@ -21,6 +21,20 @@ CREATE TABLE Rutinas(
 	NivelDificultad VARCHAR(15) CHECK (NivelDificultad IN ('Fácil', 'Intermedio', 'Difícil'))
 );
 GO
+CREATE TABLE Ejercicios (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre VARCHAR(255) NOT NULL,
+    GrupoMuscular VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE RutinaEjercicio (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    IdRutina INT NOT NULL,
+    IdEjercicio INT NOT NULL,
+    FOREIGN KEY (IdRutina) REFERENCES Rutina(Id),
+    FOREIGN KEY (IdEjercicio) REFERENCES Ejercicios(Id)
+);
+
 
 CREATE TABLE Clases(
 	Id INT PRIMARY KEY IDENTITY(1,1),

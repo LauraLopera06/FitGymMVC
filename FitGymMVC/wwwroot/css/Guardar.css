@@ -11,8 +11,8 @@
 
 .contenedor-central {
     width: 345px;
-    height: 720px;
-    background-color: #1E1E1E; 
+    min-height: 720px;
+    background-color: #1E1E1E;
     border-radius: 10px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
 }
@@ -20,10 +20,24 @@
 .encabezado-morado {
     background-color: #8000aa; /* morado */
     width: 100%;
-    height: 100px; /* 🔸 AQUÍ CAMBIAS el ALTO de la franja morada */
+    height: 100px; /* alto fijo */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    display: flex; /* 🔥 para centrar el h2 */
+    align-items: center; /* 🔥 centra verticalmente */
+    justify-content: center; /* 🔥 centra horizontalmente */
+    padding: 0; /* quitar padding */
+    margin: 0; /* quitar margen */
 }
+
+    .encabezado-morado h2 {
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0; /* 🔥 QUITA cualquier margen */
+    }
+
+
 
 .formulario-registro {
     display: flex;
@@ -35,7 +49,13 @@
     max-width: 345px; 
     box-sizing: border-box;
 }
-
+    .formulario-registro h2 {
+        text-align: center;
+        color: white;
+        margin-bottom: 25px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 .form-input {
     width: 90%; /* 🔹 Cambia el ancho total */
     max-width: 280px; /* 🔹 Cambia el máximo si lo deseas */
@@ -67,14 +87,6 @@
     display: block;
     margin-top: -10px;
     margin-bottom: 10px;
-}
-
-.formulario-registro h2 {
-    text-align: center;
-    color: white;
-    margin-bottom: 25px;
-    font-size: 20px;
-    font-weight: bold;
 }
 
 .botones {
@@ -136,3 +148,4 @@
     option {
         color: #000;
     }
+
