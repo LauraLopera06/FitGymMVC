@@ -6,7 +6,7 @@ GO
 
 CREATE TABLE Usuarios(
 	Id INT PRIMARY KEY IDENTITY(1,1),
-	Cedula VARCHAR(15),
+	Cedula VARCHAR(15)UNIQUE,
 	Nombre VARCHAR(100),
 	Telefono VARCHAR(15),
 	Correo NVARCHAR(100),

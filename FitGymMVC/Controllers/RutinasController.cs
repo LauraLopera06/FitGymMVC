@@ -87,7 +87,6 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
-
     }
 
 }
