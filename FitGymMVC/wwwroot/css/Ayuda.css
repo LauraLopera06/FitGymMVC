@@ -25,7 +25,7 @@
 }
 
 h1 {
-    font-size: 22px;
+    font-size: 30px;
     margin-bottom: 30px;
 }
 
@@ -60,4 +60,11 @@ ol {
 
 .btn-salir:hover {
     background-color: #5a005a;
+}
+
+.pie {
+    background-color: #8000aa;
+    height: 70px;
+    border-top-left-radius: 100% 40px;
+    border-top-right-radius: 100% 40px;
 }
