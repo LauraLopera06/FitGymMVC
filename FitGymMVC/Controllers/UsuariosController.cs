@@ -52,7 +52,6 @@ namespace FitGymMVC.Controllers
             else {
                 return View("~/Views/Shared/Error.cshtml");
             }
-
         }
         public IActionResult Login()
         {

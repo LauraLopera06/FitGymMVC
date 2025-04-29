@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Reserva Creada";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reserva Creada</title>
+    <link rel="stylesheet" href="~/css/CuentaCreada.css" />
+</head>
+<body>
+    <div class="contenedor-confirmacion">
+        <div class="caja-negra">
+            <a href="@Url.Action("InicioUsuario", "Usuarios")" class="cerrar">X</a>
+            <h1>¡FELICIDADES!</h1>
+            <div class="chulo">
+                <img src="~/img/iconoChulo.png" alt="Confirmación" />
+            </div>
+            <p class="mensaje">CLASE RESERVADA CORRECTAMENTE<br />ALMACENADA CORRECTAMENTE</p>
+        </div>
+        <div class="caja-morada">
+            <a href="@Url.Action("InicioUsuario", "Usuarios")" class="btn-continuar">CONTINUAR</a>
+        </div>
+    </div>
+</body>
+</html>

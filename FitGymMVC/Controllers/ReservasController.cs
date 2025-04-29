@@ -91,7 +91,7 @@ namespace FitGymMVC.Controllers
 
             if (respuesta)
             {
-                return RedirectToAction("CuentaCreada");
+                return RedirectToAction("ReservaCreada");
             }
             else
             {
@@ -99,7 +99,10 @@ namespace FitGymMVC.Controllers
             }
         }
 
-
+        public IActionResult ReservaCreada() //mostrar formulario solo devuelve la vista
+        {
+            return View();
+        }
     }
 
 }
