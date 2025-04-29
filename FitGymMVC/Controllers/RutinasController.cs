@@ -23,7 +23,7 @@ namespace FitGymMVC.Controllers
         {
             try 
             {
-                var objLista = _servicio.Listar();
+                var objLista = _servicio.ListarConEjercicios();
                 return View(objLista);
             }
             catch (Exception)
@@ -87,6 +87,32 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Clonar(int id)
+        {
+            var original = _servicio.Buscar(id);
+
+            if (original == null)
+                return View("~/Views/Shared/Error.cshtml");
+
+            var clon = original.Clonar();
+
+            // Obtener los ejercicios asociados a la rutina original
+            var relaciones = _ejerciciosRutinaServicio.Listar()
+                .Where(e => e.IdRutina == id)
+                .Select(e => e.IdEjercicio)
+                .ToList();
+
+            // Asignarlos al clon
+            clon.IdsEjerciciosSeleccionados = relaciones;
+
+            // Cargar ejercicios disponibles
+            var ejercicios = _ejerciciosServicio.Listar();
+            ViewBag.ListaEjercicios = ejercicios;
+
+            return View("Guardar", clon);
+        }
+
 
     }
 

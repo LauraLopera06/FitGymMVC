@@ -44,7 +44,12 @@
                     foreach (var ejercicio in (List<FitGymMVC.Models.EjerciciosModel>)ViewBag.ListaEjercicios)
                     {
                         <div style="margin-bottom: 8px;">
-                            <input type="checkbox" name="IdsEjerciciosSeleccionados" value="@ejercicio.Id" id="ejercicio_@ejercicio.Id" />
+                            <input type="checkbox"
+                                   name="IdsEjerciciosSeleccionados"
+                                   value="@ejercicio.Id"
+                                   id="ejercicio_@ejercicio.Id"
+                            @(Model.IdsEjerciciosSeleccionados != null && Model.IdsEjerciciosSeleccionados.Contains(ejercicio.Id) ? "checked" : "") />
+
                             <label for="ejercicio_@ejercicio.Id">@ejercicio.Nombre</label>
                         </div>
                     }

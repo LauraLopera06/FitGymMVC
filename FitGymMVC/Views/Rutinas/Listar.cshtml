@@ -1,38 +1,48 @@
-﻿@model List<FitGymMVC.Models.RutinasModel>
-@{
-    ViewData["Title"] = "Listar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    ViewData["Title"] = "Lista de Rutinas";
+    Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Rutinas</title>
+    <link rel="stylesheet" href="~/css/ListarRutinas.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado">
+            <h2>Rutinas Registradas</h2>
+        </div>
 
-<div class="card">
-    <div class="card-header">
-        Listar Rutinas
+        <div class="cuadro-blanco-scroll">
+            @foreach (var rutina in Model)
+            {
+                <div class="item-clase">
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 16px; color: #8000aa;">@rutina.NombreRutina</strong>
+                        <span style="font-size: 13px; color: #555; margin-bottom: 5px;">
+                            @rutina.Descripcion
+                        </span>
+
+                        <ul style="margin: 0; padding-left: 16px; font-size: 13px; color: #333;">
+                            @foreach (var ejercicio in rutina.Ejercicios)
+                            {
+                                <li>@ejercicio</li>
+                            }
+                        </ul>
+
+                        <a asp-action="Clonar" asp-route-id="@rutina.IdRutina" class="btn-clonar">COPIAR</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="botones">
+            <a asp-controller="Usuarios" asp-action="InicioUsuario" class="btn salir">SALIR</a>
+        </div>
     </div>
-    <div class="card-body">
-        <a asp-action="Guardar" asp-controller="Rutinas" class="btn btn-success">Crear nuevo</a>
-        <hr />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Nivel de Diificultad</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Nombre</td>
-                        <td>@item.Descripcion</td>
-                        <td>@item.NivelDificultad</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    </div>
-</div>
-
+</body>
+</html>

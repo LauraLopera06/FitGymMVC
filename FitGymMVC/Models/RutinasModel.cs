@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FitGymMVC.Models.InterfacePrototype;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using FitGymMVC.Models.InterfacePrototype;
 namespace FitGymMVC.Models
 {
-    public class RutinasModel
+    public class RutinasModel : IPrototype<RutinasModel> //para el patron de diseño
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
@@ -15,6 +16,17 @@ namespace FitGymMVC.Models
 
         [NotMapped]
         public List<int> IdsEjerciciosSeleccionados { get; set; }
+
+        public RutinasModel Clonar()
+        {
+            return new RutinasModel
+            {
+                Nombre = this.Nombre + " (Copia)",
+                Descripcion = this.Descripcion,
+                NivelDificultad = this.NivelDificultad,
+                IdsEjerciciosSeleccionados = new List<int>(this.IdsEjerciciosSeleccionados ?? new List<int>())
+            };
+        }
 
     }
 }

@@ -6,10 +6,11 @@ namespace FitGymMVC.Servicios
     public class RutinasServicio
     {
         private readonly IRutinasRepositorio _repository;
-
-        public RutinasServicio(IRutinasRepositorio repository)
+        private readonly IRutinasConEjerciciosRepositorio _rutinasConEjerciciosRepo;
+        public RutinasServicio(IRutinasRepositorio repository, IRutinasConEjerciciosRepositorio rutinasConEjerciciosRepo)
         {
             _repository = repository;
+            _rutinasConEjerciciosRepo = rutinasConEjerciciosRepo;
         }
 
         public List<RutinasModel> Listar()
@@ -25,5 +26,11 @@ namespace FitGymMVC.Servicios
         { 
             return _repository.Guardar(Rutina); 
         }
+
+        public List<RutinaConEjerciciosModel> ListarConEjercicios()
+        {
+            return _rutinasConEjerciciosRepo.ListarConEjercicios();
+        }
+
     }
 }

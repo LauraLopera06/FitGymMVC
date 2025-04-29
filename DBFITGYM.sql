@@ -311,18 +311,18 @@ GO
 CREATE PROCEDURE sp_EliminarReserva(@Id INT) AS DELETE FROM Reservas WHERE Id = @Id
 GO
 
-
-select * from Clases
-
-SELECT 
-  Id,
-  Nombre,
-  CuposLimites,
-  Fecha,
-  [HorarioInicio],
-  [HorarioFin],
-  Descripcion
-FROM 
-  Clases
-
-
+CREATE PROCEDURE sp_ListarRutinasConEjercicios
+AS
+BEGIN
+    SELECT 
+        R.Id AS IdRutina,
+        R.Nombre AS NombreRutina,
+        R.Descripcion,
+        R.NivelDificultad,
+        E.Nombre AS NombreEjercicio
+    FROM Rutinas R
+    INNER JOIN RutinaEjercicio RE ON R.Id = RE.IdRutina
+    INNER JOIN Ejercicios E ON RE.IdEjercicio = E.Id
+    ORDER BY R.Id;
+END;
+GO
