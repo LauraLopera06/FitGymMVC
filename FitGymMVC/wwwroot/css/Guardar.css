@@ -149,3 +149,38 @@
         color: #000;
     }
 
+.cuadro-blanco-scroll {
+    width: 90%;
+    max-width: 280px;
+    height: 300px; /* 🔹 Puedes ajustar la altura */
+    background-color: white;
+    border-radius: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    overflow-y: auto; /* 🔥 Habilitar scroll vertical */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* 🔹 Sombra suave */
+}
+.item-clase {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+    .item-clase input[type="checkbox"] {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+        accent-color: #8000aa; /* Morado bonito */
+    }
+
+    .item-clase label {
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
+    }
+

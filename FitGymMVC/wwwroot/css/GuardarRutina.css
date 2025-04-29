@@ -142,3 +142,23 @@
         font-weight: bold;
     }
 
+    .crear-ejercicio {
+    display: flex;
+    margin-bottom: 10px;
+    }
+
+    .btn-crear-ejercicio {
+    background-color: #8000aa;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    }
+
+    .btn-crear-ejercicio:hover {
+        background-color: #5e007c;
+    }
+

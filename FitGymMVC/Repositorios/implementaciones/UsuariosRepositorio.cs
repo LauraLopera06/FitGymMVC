@@ -89,7 +89,37 @@ public class UsuariosRepositorio : IUsuariosRepositorio
             }
     }
 
-    public bool Guardar(UsuariosModel usuario)
+    public UsuariosModel BuscarPorCedula(string cedula)
+        {
+            using (var conexion = new SqlConnection(_cadenaSQL))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_BuscarUsuarioPorCedula", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Cedula", cedula);
+
+                using (var dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return new UsuariosModel
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Nombre = dr["Nombre"].ToString(),
+                            Cedula = dr["Cedula"].ToString(),
+                            Telefono = dr["Telefono"].ToString(),
+                            Correo = dr["Correo"].ToString(),
+                            FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"])
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+
+
+        public bool Guardar(UsuariosModel usuario)
     {
 
         using (var conexion = new SqlConnection(_cadenaSQL))

@@ -43,7 +43,7 @@ namespace FitGymMVC.Controllers
 
             if (respuesta)
             {
-                return RedirectToAction("EjercicioCreado");
+                return RedirectToAction("Guardar","Rutinas");
             }
             else
             {

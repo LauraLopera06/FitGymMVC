@@ -7,5 +7,7 @@ namespace FitGymMVC.Repositorios.Interfaces
         List<UsuariosModel> Listar();
         UsuariosModel Buscar(int id);
         bool Guardar(UsuariosModel usuario);
+
+        UsuariosModel BuscarPorCedula(string cedula);
     }
 }

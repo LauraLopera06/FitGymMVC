@@ -22,6 +22,11 @@ namespace FitGymMVC.Servicios
                 return _repository.Buscar(id);
             
         }
+        public UsuariosModel BuscarPorCedula(string cedula)
+        {
+            return _repository.BuscarPorCedula(cedula);
+        }
+
         public bool Guardar(UsuariosModel usuario) 
         {
                 return _repository.Guardar(usuario);

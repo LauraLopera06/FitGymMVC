@@ -34,8 +34,13 @@
             <span asp-validation-for="NivelDificultad" class="text-danger"></span>
 
             <div class="cuadro-blanco">
+                <div class="crear-ejercicio">
+                    <a asp-controller="Ejercicios" asp-action="Guardar" class="btn-crear-ejercicio">+ Crear Ejercicio</a>
+                </div>
+
                 @if (ViewBag.ListaEjercicios != null)
                 {
+
                     foreach (var ejercicio in (List<FitGymMVC.Models.EjerciciosModel>)ViewBag.ListaEjercicios)
                     {
                         <div style="margin-bottom: 8px;">

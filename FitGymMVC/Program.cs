@@ -19,6 +19,9 @@ builder.Services.AddScoped<FitGymMVC.Servicios.RutinaEjercicioServicio>();
 builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IClasesRepositorio, FitGymMVC.Repositorios.Implementaciones.ClasesRepositorio>();
 builder.Services.AddScoped<FitGymMVC.Servicios.ClasesServicio>();
 
+builder.Services.AddScoped<FitGymMVC.Repositorios.Interfaces.IReservasRepositorio, FitGymMVC.Repositorios.Implementaciones.ReservasRepositorio>();
+builder.Services.AddScoped<FitGymMVC.Servicios.ReservasServicio>();
+
 // 3️⃣ Construir la app después de registrar servicios
 var app = builder.Build();
 

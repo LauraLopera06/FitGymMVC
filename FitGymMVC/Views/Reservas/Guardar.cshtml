@@ -1,0 +1,66 @@
+﻿@model FitGymMVC.Models.ReservasModel
+
+@{
+    ViewData["Title"] = "Reservar Clase";
+    Layout = null; // No usar layout principal
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Reservar Clase</title>
+    <link rel="stylesheet" href="~/css/Guardar.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado">
+            <h2>Reservar Clase</h2>
+        </div>
+
+        @if (ViewBag.MensajeError != null)
+        {
+            <span class="text-danger" style="text-align:center; display:block; margin-bottom:10px;">
+                @ViewBag.MensajeError
+            </span>
+        }
+
+
+        <form asp-action="Guardar" method="post" class="formulario-registro">
+
+                <!-- Cédula del Usuario -->
+                <input type="text" name="CedulaUsuario" class="form-input" placeholder="Cédula del Usuario" />
+                <span class="text-danger" id="error-cedula"></span>
+
+                <!-- Nombre de la Clase -->
+                <div class="cuadro-blanco-scroll">
+                    @if (ViewBag.ListaClases != null)
+                    {
+                        foreach (var clase in (List<FitGymMVC.Models.ClasesModel>)ViewBag.ListaClases)
+                        {
+                            if (clase.CuposLimites > 0)
+                            {
+                                <div class="item-clase">
+                                    <input type="radio" name="NombreClaseSeleccionada" value="@clase.Nombre" id="clase_@clase.Id" />
+                                    <label for="clase_@clase.Id">@clase.Nombre (Cupos: @clase.CuposLimites)</label>
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <p>No hay clases disponibles.</p>
+                    }
+                </div>
+
+                <div class="botones">
+                    <button type="submit" class="btn crear">RESERVAR</button>
+                    <a asp-controller="Usuarios" asp-action="InicioUsuario" class="btn salir">SALIR</a>
+                </div>
+
+            </form>
+         
+
+    </div>
+</body>
+</html>

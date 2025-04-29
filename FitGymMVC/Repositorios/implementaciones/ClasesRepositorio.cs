@@ -91,8 +91,37 @@ public class ClasesRepositorio : IClasesRepositorio
             }
         
     }
+    public ClasesModel BuscarPorNombre(string nombre)
+        {
+            using (var conexion = new SqlConnection(_cadenaSQL))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_BuscarClasePorNombre", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("Nombre", nombre);
 
-    public bool Guardar(ClasesModel Clase)
+                using (var dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return new ClasesModel
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Nombre = dr["Nombre"].ToString(),
+                            CuposLimites = Convert.ToInt32(dr["CuposLimites"]),
+                            Fecha = dr["Fecha"].ToString(),
+                            HorarioInicio = (TimeSpan)dr["HorarioInicio"],
+                            HorarioFin = (TimeSpan)dr["HorarioFin"],
+                            Descripcion = dr["Descripcion"].ToString()
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+
+        public bool Guardar(ClasesModel Clase)
     {
             try
             {

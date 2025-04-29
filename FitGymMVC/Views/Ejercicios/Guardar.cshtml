@@ -1,0 +1,36 @@
+﻿@model FitGymMVC.Models.EjerciciosModel
+
+@{
+    ViewData["Title"] = "Crear Ejercicio";
+    Layout = null; // Para que no use el layout principal
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Ejercicios</title>
+    <link rel="stylesheet" href="~/css/Guardar.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado"></div>
+
+        <form asp-action="Guardar" method="post" class="formulario-registro">
+            <h2>Registrar Ejercicio</h2>
+
+            <input asp-for="Nombre" class="form-input" placeholder="Nombre del Ejercicio" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+
+            <input asp-for="GrupoMuscular" class="form-input" placeholder="Grupo Muscular" />
+            <span asp-validation-for="GrupoMuscular" class="text-danger"></span>
+
+            <div class="botones">
+                <button type="submit" class="btn crear">GUARDAR</button>
+                <a asp-controller="Rutinas" asp-action="Guardar" class="btn salir">VOLVER</a>
+            </div>
+
+        </form>
+    </div>
+</body>
+</html>

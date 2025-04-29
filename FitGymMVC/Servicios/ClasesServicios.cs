@@ -21,6 +21,11 @@ namespace FitGymMVC.Servicios
         {
             return _repository.Buscar(id);
         }
+        public ClasesModel BuscarPorNombre(string nombre)
+        {
+            return _repository.BuscarPorNombre(nombre);
+        }
+
         public (bool Exito, string Mensaje) Guardar(ClasesModel Clase)
         {
             var clasesExistentes = _repository.Listar();

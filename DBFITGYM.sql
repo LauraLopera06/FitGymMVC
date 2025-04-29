@@ -46,18 +46,19 @@ CREATE TABLE Clases(
 	CuposLimites INT,
 	Descripcion VARCHAR(100),
 	Fecha VARCHAR(10)
-	CHECK (Fecha IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'))
+	CHECK (Fecha IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')),
+	CHECK (CuposLimites >= 0)
 );
 GO
 
-CREATE TABLE Reservas(
-	Id INT PRIMARY KEY IDENTITY(1,1),
-	cuposDisponibles INT CHECK (cuposDisponibles >= 0),
-	Disponibilidad BIT NOT NULL,
-	IdUsuario INT FOREIGN KEY (IdUsuario) REFERENCES Usuarios(Id),
-	IdClase INT FOREIGN KEY (IdClase) REFERENCES Clases(Id)
+CREATE TABLE Reservas (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    IdUsuario INT FOREIGN KEY (IdUsuario) REFERENCES Usuarios(Id),
+    IdClase INT FOREIGN KEY (IdClase) REFERENCES Clases(Id),
+    CONSTRAINT UQ_Reservas_IdUsuario_IdClase UNIQUE (IdUsuario, IdClase) 
 );
 GO
+
 
 
 
@@ -106,25 +107,36 @@ GO
 
 
 INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion) VALUES
-('Zumba', 'Lunes', '09:00', '10:00', 15, 'Clase de baile cardiovascular'),
+('Zumba', 'Lunes', '09:00', '10:00', 2, 'Clase de baile cardiovascular'),
 ('Crossfit', 'Martes', '11:00', '12:00', 10, 'Entrenamiento funcional intenso'),
 ('Yoga', 'Miércoles', '08:00', '09:00', 12, 'Clase de relajación y estiramiento'),
 ('Spinning', 'Jueves', '18:00', '19:00', 20, 'Clase en bicicleta estacionaria'),
 ('Pilates', 'Viernes', '07:00', '08:00', 10, 'Entrenamiento de control corporal');
 GO
 
-INSERT INTO Reservas (cuposDisponibles, Disponibilidad, IdUsuario, IdClase) VALUES
-(10, 1, 1, 1),
-(5, 1, 2, 2),
-(3, 1, 3, 3),
-(0, 0, 4, 4),
-(8, 1, 5, 5);
+INSERT INTO Reservas (IdUsuario, IdClase) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);
 GO
+
 
 CREATE PROCEDURE sp_ListarUsuarios AS SELECT * FROM Usuarios
 GO
 CREATE PROCEDURE sp_ObtenerUsuario(@Id INT) AS SELECT * FROM Usuarios WHERE Id = @Id
 GO
+CREATE PROCEDURE sp_BuscarUsuarioPorCedula
+    @Cedula NVARCHAR(50)
+AS
+BEGIN
+    SELECT * 
+    FROM Usuarios
+    WHERE Cedula = @Cedula;
+END
+GO
+
 CREATE PROCEDURE sp_GuardarUsuario(@Cedula VARCHAR(15), @Nombre VARCHAR(100), @Telefono VARCHAR(15), @Correo NVARCHAR(100), @FechaNacimiento DATE)
 AS
 BEGIN
@@ -248,6 +260,17 @@ CREATE PROCEDURE sp_ListarClases AS SELECT * FROM Clases
 GO
 CREATE PROCEDURE sp_ObtenerClase(@Id INT) AS SELECT * FROM Clases WHERE Id = @Id
 GO
+
+CREATE PROCEDURE sp_BuscarClasePorNombre
+    @Nombre NVARCHAR(100)
+AS
+BEGIN
+    SELECT * 
+    FROM Clases
+    WHERE Nombre = @Nombre;
+END
+GO
+
 CREATE PROCEDURE sp_GuardarClase(@Nombre VARCHAR(100), @Fecha VARCHAR(10), @HorarioInicio TIME, @HorarioFin TIME, @CuposLimites INT, @Descripcion VARCHAR(100))
 AS
 BEGIN
@@ -269,17 +292,20 @@ CREATE PROCEDURE sp_ListarReservas AS SELECT * FROM Reservas
 GO
 CREATE PROCEDURE sp_ObtenerReserva(@Id INT) AS SELECT * FROM Reservas WHERE Id = @Id
 GO
-CREATE PROCEDURE sp_GuardarReserva(@cuposDisponibles INT, @Disponibilidad BIT, @IdUsuario INT, @IdClase INT)
+CREATE PROCEDURE sp_GuardarReserva(@IdUsuario INT, @IdClase INT)
 AS
 BEGIN
-	INSERT INTO Reservas(cuposDisponibles, Disponibilidad, IdUsuario, IdClase)
-	VALUES (@cuposDisponibles, @Disponibilidad, @IdUsuario, @IdClase)
+	INSERT INTO Reservas(IdUsuario, IdClase)
+	VALUES (@IdUsuario, @IdClase)
+	UPDATE Clases
+        SET CuposLimites = CuposLimites-1
+        WHERE Id = @IdClase;
 END
 GO
-CREATE PROCEDURE sp_EditarReserva(@Id INT, @cuposDisponibles INT, @Disponibilidad BIT, @IdUsuario INT, @IdClase INT)
+CREATE PROCEDURE sp_EditarReserva(@Id INT, @IdUsuario INT, @IdClase INT)
 AS
 BEGIN
-	UPDATE Reservas SET cuposDisponibles = @cuposDisponibles, Disponibilidad = @Disponibilidad, IdUsuario = @IdUsuario, IdClase = @IdClase WHERE Id = @Id
+	UPDATE Reservas SET IdUsuario = @IdUsuario, IdClase = @IdClase WHERE Id = @Id
 END
 GO
 CREATE PROCEDURE sp_EliminarReserva(@Id INT) AS DELETE FROM Reservas WHERE Id = @Id
