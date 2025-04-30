@@ -14,6 +14,22 @@ namespace FitGymMVC.Models
         public string Correo { get; set; }
         [Required(ErrorMessage = "El campo fecha de nacimiento es obligatorio")]
         public DateTime? FechaNacimiento { get; set; }
+        public int Edad
+        {
+            get
+            {
+                if (!FechaNacimiento.HasValue)
+                    return 0; // O puedes lanzar una excepción si prefieres
+
+                var hoy = DateTime.Today;
+                var nacimiento = FechaNacimiento.Value;
+                var edad = hoy.Year - nacimiento.Year;
+                if (nacimiento.Date > hoy.AddYears(-edad)) edad--;
+                return edad;
+            }
+        }
+
+
 
 
     }

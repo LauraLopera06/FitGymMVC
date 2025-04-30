@@ -1,43 +1,48 @@
 ﻿@model List<FitGymMVC.Models.UsuariosModel>
 @{
-    ViewData["Title"] = "Listar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Lista de Usuarios";
+    Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Usuarios</title>
+    <link rel="stylesheet" href="~/css/ListarRutinas.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado">
+            <h2>Usuarios Registrados</h2>
+        </div>
 
-<div class="card">
-    <div class="card-header">
-        Listar Usuarios
+        <div class="cuadro-blanco-scroll">
+            @foreach (var usuario in Model)
+            {
+                <div class="item-clase">
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 16px; color: #8000aa;">@usuario.Nombre</strong>
+                        <span style="font-size: 15px; color: #555;">
+                            Cédula: @usuario.Cedula
+                        </span>
+                        <span style="font-size: 15px; color: #555;">
+                            Teléfono: @usuario.Telefono
+                        </span>
+                        <span style="font-size: 15px; color: #555;">
+                            Correo: @usuario.Correo
+                        </span>
+                        <span style="font-size: 15px; color: #555;">
+                            Edad: @usuario.Edad
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="botones">
+            <a asp-controller="Usuarios" asp-action="InicioUsuario" class="btn salir">SALIR</a>
+        </div>
     </div>
-    <div class="card-body">
-        <a asp-action="Guardar" asp-controller="Usuarios" class="btn btn-success">Crear nuevo</a>
-        <hr />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Cedula</th>
-                    <th>Telefono</th>
-                    <th>Correo</th>
-                    <th>FechaNacimiento</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Nombre</td>
-                        <td>@item.Cedula</td>
-                        <td>@item.Telefono</td>
-                        <td>@item.Correo</td>
-                        <td>@item.FechaNacimiento</td>
-                        <td></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    </div>
-</div>
-
+</body>
+</html>
