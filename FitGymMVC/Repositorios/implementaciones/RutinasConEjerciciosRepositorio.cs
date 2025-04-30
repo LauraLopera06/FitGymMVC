@@ -14,8 +14,8 @@ namespace FitGymMVC.Repositorios.Implementaciones
             _cadenaSQL = configuration.GetConnectionString("CadenaSQL");
         }
 
-        public List<RutinaConEjerciciosModel> ListarConEjercicios()
-        {
+        public List<RutinaConEjerciciosModel> ListarConEjercicios()//lista las rutinas y las rutinas tienen una lista de ejercicios
+        {                                                          
             var resultado = new Dictionary<int, RutinaConEjerciciosModel>();
 
             using (var conexion = new SqlConnection(_cadenaSQL))
@@ -28,12 +28,14 @@ namespace FitGymMVC.Repositorios.Implementaciones
                 {
                     while (dr.Read())
                     {
+                        //se sacan los datos de la consulta uno por uno.
                         int idRutina = Convert.ToInt32(dr["IdRutina"]);
                         string nombreRutina = dr["NombreRutina"].ToString();
                         string descripcion = dr["Descripcion"].ToString();
                         string nivel = dr["NivelDificultad"].ToString();
                         string ejercicio = dr["NombreEjercicio"].ToString();
 
+                        //si esa rutina no está en el diccionario se agrega.
                         if (!resultado.ContainsKey(idRutina))
                         {
                             resultado[idRutina] = new RutinaConEjerciciosModel
@@ -45,7 +47,7 @@ namespace FitGymMVC.Repositorios.Implementaciones
                                 Ejercicios = new List<string>()
                             };
                         }
-
+                        //agrega el ejercicio a la lista de la rutina.
                         resultado[idRutina].Ejercicios.Add(ejercicio);
                     }
                 }

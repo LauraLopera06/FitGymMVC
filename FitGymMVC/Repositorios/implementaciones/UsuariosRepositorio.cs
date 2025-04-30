@@ -5,10 +5,11 @@ using FitGymMVC.Models;
 
 namespace FitGymMVC.Repositorios.Implementaciones { 
 public class UsuariosRepositorio : IUsuariosRepositorio
-{
+    {
     
         private readonly string _cadenaSQL;
 
+    //inyeccion de dependencia
     public UsuariosRepositorio(IConfiguration configuration)
     {
         _cadenaSQL = configuration.GetConnectionString("CadenaSQL");
@@ -21,13 +22,13 @@ public class UsuariosRepositorio : IUsuariosRepositorio
             {
                 var lista = new List<UsuariosModel>();
 
-                using (var conexion = new SqlConnection(_cadenaSQL))
+                using (var conexion = new SqlConnection(_cadenaSQL))//se crea la conexion
                 {
-                    conexion.Open();
-                    SqlCommand cmd = new SqlCommand("sp_ListarUsuarios", conexion);
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    conexion.Open();//se abre
+                    SqlCommand cmd = new SqlCommand("sp_ListarUsuarios", conexion);//ejecucion de consulta o procedimiento
+                    cmd.CommandType = CommandType.StoredProcedure; //indica que se ejecuta un procedimiento almacenado
 
-                    using (var dr = cmd.ExecuteReader())
+                    using (var dr = cmd.ExecuteReader())//ejecuta la consulta
                     {
                         while (dr.Read())
                         {

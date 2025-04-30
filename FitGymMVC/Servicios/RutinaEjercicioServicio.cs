@@ -1,9 +1,10 @@
 ﻿using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
+using FitGymMVC.Servicios.Interfaces;
 
 namespace FitGymMVC.Servicios
 {
-    public class RutinaEjercicioServicio
+    public class RutinaEjercicioServicio: IRutinaEjercicioServicio
     {
         private readonly IRutinaEjercicioRepositorio _repository;
 

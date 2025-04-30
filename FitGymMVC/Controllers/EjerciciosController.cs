@@ -1,14 +1,15 @@
 ﻿using FitGymMVC.Models;
 using FitGymMVC.Servicios;
+using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitGymMVC.Controllers
 {
     public class EjerciciosController : Controller
     {
-        private readonly EjerciciosServicio _servicio;
+        private readonly IEjerciciosServicio _servicio;
 
-        public EjerciciosController(EjerciciosServicio servicio)
+        public EjerciciosController(IEjerciciosServicio servicio)
         {
             _servicio = servicio;
         }

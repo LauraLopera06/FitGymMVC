@@ -1,17 +1,18 @@
 ﻿using FitGymMVC.Models;
 using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Servicios;
+using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitGymMVC.Controllers
 {
     public class RutinasController : Controller
     {
-        private readonly RutinasServicio _servicio;
-        private readonly EjerciciosServicio _ejerciciosServicio;
-        private readonly RutinaEjercicioServicio _ejerciciosRutinaServicio;
+        private readonly IRutinasServicio _servicio;
+        private readonly IEjerciciosServicio _ejerciciosServicio;
+        private readonly IRutinaEjercicioServicio _ejerciciosRutinaServicio;
 
-        public RutinasController(RutinasServicio servicio, EjerciciosServicio ejerciciosServicio, RutinaEjercicioServicio rutinaEjercicioRepositorio)
+        public RutinasController(IRutinasServicio servicio, IEjerciciosServicio ejerciciosServicio, IRutinaEjercicioServicio rutinaEjercicioRepositorio)
         {
             _servicio = servicio;
             _ejerciciosServicio = ejerciciosServicio;
@@ -87,7 +88,7 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
-        public IActionResult Clonar(int id)
+        public IActionResult Clonar(int id)//clonear par el patron de diseño
         {
             var original = _servicio.Buscar(id);
 

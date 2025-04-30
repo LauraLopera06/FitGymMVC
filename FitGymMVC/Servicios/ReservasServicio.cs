@@ -1,9 +1,10 @@
 ﻿using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
+using FitGymMVC.Servicios.Interfaces;
 
 namespace FitGymMVC.Servicios
 {
-    public class ReservasServicio
+    public class ReservasServicio : IReservasServicio
     {
         private readonly IReservasRepositorio _repository;
         private readonly IUsuariosRepositorio _usuariosrepository;

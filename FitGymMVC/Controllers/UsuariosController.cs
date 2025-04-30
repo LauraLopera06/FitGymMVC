@@ -1,18 +1,19 @@
 ﻿using FitGymMVC.Models;
 using FitGymMVC.Servicios;
+using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitGymMVC.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly UsuariosServicio _servicio;
+        private readonly IUsuariosServicio _servicio;
 
-        public UsuariosController(UsuariosServicio service)
+        public UsuariosController(IUsuariosServicio service)
         {
-            _servicio = service;
+            _servicio = service; //ineyccion de dependencias
         }
-        public IActionResult Listar()
+        public IActionResult Listar() //debe haber una vista Listar en /views/usuarios así con el resto
         {
             try
             {
@@ -26,18 +27,18 @@ namespace FitGymMVC.Controllers
             }
             
         }
-        public IActionResult Guardar() //mostrar formulario solo devuelve la vista
+        public IActionResult Guardar() //mostrar formulario para guardar.
         {
             return View();
         }
 
-        public IActionResult CuentaCreada() //mostrar formulario solo devuelve la vista
+        public IActionResult CuentaCreada()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Guardar(UsuariosModel objUsuario) //sacar datos del formulario para mandar a la BD
+        public IActionResult Guardar(UsuariosModel objUsuario) 
         {
             if (!ModelState.IsValid)
             {

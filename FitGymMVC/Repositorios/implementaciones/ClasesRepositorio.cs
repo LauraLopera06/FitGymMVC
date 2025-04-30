@@ -4,7 +4,7 @@ using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
 
 namespace FitGymMVC.Repositorios.Implementaciones { 
-public class ClasesRepositorio : IClasesRepositorio
+public class ClasesRepositorio : IClasesRepositorio 
 {
     
         private readonly string _cadenaSQL;

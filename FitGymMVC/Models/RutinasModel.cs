@@ -16,7 +16,7 @@ namespace FitGymMVC.Models
         [NotMapped]
         public List<int> IdsEjerciciosSeleccionados { get; set; }
 
-        public RutinasModel Clonar()
+        public RutinasModel Clonar()//Implementacion para el patron de diseño
         {
             return new RutinasModel
             {

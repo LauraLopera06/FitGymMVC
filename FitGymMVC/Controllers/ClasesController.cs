@@ -1,18 +1,19 @@
 ﻿using FitGymMVC.Models;
 using FitGymMVC.Servicios;
+using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitGymMVC.Controllers
 {
     public class ClasesController : Controller
     {
-        private readonly ClasesServicio _servicio;
+        private readonly IClasesServicio _servicio;
 
-        public ClasesController(ClasesServicio service)
+        public ClasesController(IClasesServicio service) 
         {
-            _servicio = service;
+            _servicio = service; //inyeccion de dependencias.
         }
-        public IActionResult Listar()
+        public IActionResult Listar() //es una vista.
         {
             try
             {
@@ -25,7 +26,7 @@ namespace FitGymMVC.Controllers
                 return View("~/Views/Shared/Error.cshtml");
             }
         }
-        public IActionResult Guardar() //mostrar formulario solo devuelve la vista
+        public IActionResult Guardar() //mostrar formulario para crear usuario.
         {
             return View();
         }
@@ -34,10 +35,10 @@ namespace FitGymMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(objClase); // <-- devuelves el modelo para que no se borren los campos
+                return View(objClase);
             }
 
-            var respuesta = _servicio.Guardar(objClase); // <-- ahora 'respuesta' tiene Exito y Mensaje
+            var respuesta = _servicio.Guardar(objClase);
 
             if (respuesta.Exito)
             {
@@ -45,7 +46,7 @@ namespace FitGymMVC.Controllers
             }
             else
             {
-                ModelState.AddModelError(string.Empty, respuesta.Mensaje); // <-- mostramos el mensaje que venga
+                ModelState.AddModelError(string.Empty, respuesta.Mensaje); // mostramos el mensaje que venga
                 return View(objClase); // <-- volvemos a mostrar el formulario
             }
         }

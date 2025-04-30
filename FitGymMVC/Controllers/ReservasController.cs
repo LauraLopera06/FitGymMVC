@@ -1,17 +1,18 @@
 ﻿using FitGymMVC.Models;
 using FitGymMVC.Servicios;
+using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitGymMVC.Controllers
 {
     public class ReservasController : Controller
     {
-        private readonly ReservasServicio _servicio;
-        private readonly ClasesServicio _clasesServicio;
-        private readonly UsuariosServicio _usuariosServicio;
+        private readonly IReservasServicio _servicio;
+        private readonly IClasesServicio _clasesServicio;
+        private readonly IUsuariosServicio _usuariosServicio;
 
 
-        public ReservasController(ReservasServicio service, ClasesServicio clasesServicio, UsuariosServicio usuariosServicio)
+        public ReservasController(IReservasServicio service, IClasesServicio clasesServicio, IUsuariosServicio usuariosServicio)
         {
             _servicio = service;
             _clasesServicio = clasesServicio;

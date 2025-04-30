@@ -1,15 +1,16 @@
 ﻿using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
+using FitGymMVC.Servicios.Interfaces;
 
 namespace FitGymMVC.Servicios
 {
-    public class UsuariosServicio
+    public class UsuariosServicio : IUsuariosServicio
     {
         private readonly IUsuariosRepositorio _repository;
 
         public UsuariosServicio(IUsuariosRepositorio repository)
         {
-            _repository = repository;
+            _repository = repository;//inyeccion de dependencias
         }
 
         public List<UsuariosModel> Listar()

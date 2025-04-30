@@ -90,7 +90,7 @@ public class ReservasRepositorio : IReservasRepositorio
         using (var conexion = new SqlConnection(_cadenaSQL))
             {
                 conexion.Open();
-                SqlCommand cmd = new SqlCommand("sp_GuardarReserva", conexion);
+                SqlCommand cmd = new SqlCommand("sp_GuardarReserva", conexion);//el procedure tambien disminuye en uno el cupo de la clase 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("IdUsuario", reserva.IdUsuario);
                 cmd.Parameters.AddWithValue("IdClase", reserva.IdClase);

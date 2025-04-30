@@ -4,7 +4,7 @@ namespace FitGymMVC.Models
     public class UsuariosModel
     {
         public int Id { get; set; }
-        [Required(ErrorMessage ="El campo Nombre es obligatorio")] 
+        [Required(ErrorMessage ="El campo Nombre es obligatorio")] // Validación obligatoria en formularios
         public string Nombre { get; set; }
         [Required(ErrorMessage = "El campo Cedula es obligatorio")]
         public string Cedula { get; set; }
@@ -15,7 +15,7 @@ namespace FitGymMVC.Models
         [Required(ErrorMessage = "El campo fecha de nacimiento es obligatorio")]
         public DateTime? FechaNacimiento { get; set; }
         
-        public int Edad
+        public int Edad // Cálculo automático de la edad basado en la fecha de nacimiento
         {
             get
             {
