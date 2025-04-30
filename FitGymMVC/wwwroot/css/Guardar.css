@@ -60,13 +60,14 @@
     width: 90%; /* 🔹 Cambia el ancho total */
     max-width: 280px; /* 🔹 Cambia el máximo si lo deseas */
     padding: 20px; /* 🔹 Cambia el alto del input (más padding = más alto) */
-    margin-bottom: 16px; /* 🔹 Espacio entre cada campo */
+    margin-bottom: 5px; /* 🔹 Espacio entre cada campo */
     border-radius: 25px;
     border: none;
     background-color: white;
     color: black;
+    margin-top: 20px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
     transition: box-shadow 0.2s ease-in-out;
@@ -110,6 +111,7 @@
     text-decoration: none;
     transition: background-color 0.2s ease;
     display: inline-block;
+    margin-bottom: 16px;
 }
 
 .crear {
@@ -179,7 +181,7 @@
     }
 
     .item-clase label {
-        font-size: 14px;
+        font-size: 20px;
         color: #333;
         font-weight: bold;
     }

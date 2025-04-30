@@ -87,7 +87,6 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
-
         public IActionResult Clonar(int id)
         {
             var original = _servicio.Buscar(id);
