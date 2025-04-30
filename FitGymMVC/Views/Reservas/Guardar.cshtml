@@ -25,9 +25,9 @@
             </span>
         }
         <div>
-
+            
         </div>
-
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <form asp-action="Guardar" method="post" class="formulario-registro">
 
                 <!-- Cédula del Usuario -->

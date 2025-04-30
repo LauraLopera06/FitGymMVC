@@ -14,6 +14,7 @@ namespace FitGymMVC.Servicios
 
         public List<UsuariosModel> Listar()
         {
+
                 return _repository.Listar();
             
         }

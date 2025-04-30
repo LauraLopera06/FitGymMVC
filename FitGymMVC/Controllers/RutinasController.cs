@@ -50,7 +50,7 @@ namespace FitGymMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var ejercicios = _ejerciciosServicio.Listar(); // 🔥 Recargar ejercicios
+                var ejercicios = _ejerciciosServicio.Listar(); // Recargar ejercicios
                 ViewBag.ListaEjercicios = ejercicios;
                 return View(objRutina);
             }
@@ -69,7 +69,7 @@ namespace FitGymMVC.Controllers
                             IdEjercicio = idEjercicio
                         };
 
-                        _ejerciciosRutinaServicio.Guardar(nuevaRelacion); // 🔥 Así usas tu método existente
+                        _ejerciciosRutinaServicio.Guardar(nuevaRelacion); // Así usas tu método existente
                     }
                 }
 
