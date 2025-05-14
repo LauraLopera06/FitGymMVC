@@ -93,7 +93,7 @@
     border: none;
     border-radius: 10px;
     padding: 16px 0; /* 🔸 Cambia aquí para ajustar la ALTURA (más padding = más alto) */
-    width: 90%; /* 🔸 Cambia aquí para hacer el botón más ancho o angosto */
+    width: 80%; /* 🔸 Cambia aquí para hacer el botón más ancho o angosto */
     max-width: 300px; /* 🔸 Máximo ancho permitido */
 
     font-size: 16px; /* 🔸 Cambia aquí para hacer el texto más grande o más pequeño */
@@ -127,3 +127,13 @@
         .links a:hover {
             color: #b266ff; /* color lila al pasar el mouse */
         }
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    form .btn-ingresar {
+        width: 80%; /* igual que los inputs */
+    }

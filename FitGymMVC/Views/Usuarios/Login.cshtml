@@ -17,31 +17,37 @@
             <img src="~/img/iconoPersona.png" class="models" />
         </div>
 
-        <div class="campo">
-            <div class="icono-wrapper">
-                <img src="~/img/iconoMensaje.png" class="icono" />
+        <!-- FORMULARIO DE LOGIN -->
+        <form asp-controller="Usuarios" asp-action="Login" method="post">
+            <div class="campo">
+                <div class="icono-wrapper">
+                    <img src="~/img/iconoMensaje.png" class="icono" />
+                </div>
+                <input type="email" name="correo" placeholder="CORREO" required />
             </div>
-            <input type="email" placeholder="CORREO" />
-        </div>
 
-        <div class="campo">
-            <div class="icono-wrapper">
-                <img src="~/img/iconoLlave.png" class="icono" />
+            <div class="campo">
+                <div class="icono-wrapper">
+                    <img src="~/img/iconoLlave.png" class="icono" />
+                </div>
+                <input type="password" name="contraseña" placeholder="CONTRASEÑA" required />
             </div>
-            <input type="password" placeholder="CONTRASEÑA" />
-        </div>
 
-        <div class="links">
-            <a href="#">¿OLVIDASTE TU CONTRASEÑA?</a>
-            <a href="/Usuarios/Guardar">CREAR CUENTA</a>
-            <a href="/Usuarios/Ayuda">AYUDA</a>
-        </div>
+            @if (!string.IsNullOrEmpty(ViewBag.Error as string))
+            {
+                <p style="color:red; text-align:center;">@ViewBag.Error</p>
+            }
 
+            <div class="links">
+                <a href="#">¿OLVIDASTE TU CONTRASEÑA?</a>
+                <a href="/Usuarios/Guardar">CREAR CUENTA</a>
+                <a href="/Usuarios/Ayuda">AYUDA</a>
+            </div>
 
-        <button class="btn-ingresar" onclick="location.href='/Usuarios/InicioUsuario'">INGRESAR</button>
+            <button type="submit" class="btn-ingresar">INGRESAR</button>
+        </form>
 
-
+        
     </div>
 </body>
 </html>
-

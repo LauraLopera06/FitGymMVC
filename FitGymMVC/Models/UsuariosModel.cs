@@ -14,7 +14,10 @@ namespace FitGymMVC.Models
         public string Correo { get; set; }
         [Required(ErrorMessage = "El campo fecha de nacimiento es obligatorio")]
         public DateTime? FechaNacimiento { get; set; }
-        
+        public string? TipoUsuario { get; set; }
+        [Required(ErrorMessage = "El campo Contraseña es obligatorio")]
+        public string Contraseña { get; set; }
+
         public int Edad // Cálculo automático de la edad basado en la fecha de nacimiento
         {
             get

@@ -39,7 +39,8 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                                 Cedula = dr["Cedula"].ToString(),
                                 Telefono = dr["Telefono"].ToString(),
                                 Correo = dr["Correo"].ToString(),
-                                FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"])
+                                FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
+                                TipoUsuario = dr["Nombre"].ToString()
                             });
                         }
                     }
@@ -77,7 +78,8 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                                 Cedula = dr["Cedula"].ToString(),
                                 Telefono = dr["Telefono"].ToString(),
                                 Correo = dr["Correo"].ToString(),
-                                FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"])
+                                FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
+                                TipoUsuario = dr["Nombre"].ToString()
                             };
                         }
                     }
@@ -110,7 +112,8 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                             Cedula = dr["Cedula"].ToString(),
                             Telefono = dr["Telefono"].ToString(),
                             Correo = dr["Correo"].ToString(),
-                            FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"])
+                            FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
+                            TipoUsuario = dr["Nombre"].ToString()
                         };
                     }
                 }
@@ -133,10 +136,38 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                 cmd.Parameters.AddWithValue("Telefono", usuario.Telefono);
                 cmd.Parameters.AddWithValue("Correo", usuario.Correo);
                 cmd.Parameters.AddWithValue("FechaNacimiento", usuario.FechaNacimiento);
+                cmd.Parameters.AddWithValue("Contraseña", usuario.Contraseña);
 
                 cmd.ExecuteNonQuery();
                 return true;
             }
     }
-}
+
+        public Usuarioslogin ValidarUsuario(string correo, string contraseña)
+        {
+            using (SqlConnection conexion = new SqlConnection(_cadenaSQL))
+            {
+                SqlCommand cmd = new SqlCommand("sp_ValidarUsuario", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Correo", correo);
+                cmd.Parameters.AddWithValue("@Contraseña", contraseña);
+
+                conexion.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new Usuarioslogin
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Correo = reader["Correo"].ToString(),
+                            TipoUsuario = reader["TipoUsuario"].ToString()
+                        };
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
 }

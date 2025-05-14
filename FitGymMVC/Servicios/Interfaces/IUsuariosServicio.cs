@@ -8,5 +8,6 @@ namespace FitGymMVC.Servicios.Interfaces
         UsuariosModel Buscar(int id);
         UsuariosModel BuscarPorCedula(string cedula);
         bool Guardar(UsuariosModel usuario);
+        Usuarioslogin Login(string correo, string contraseña);
     }
 }

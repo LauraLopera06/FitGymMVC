@@ -1,5 +1,6 @@
 ﻿using FitGymMVC.Servicios.Interfaces;
 using FitGymMVC.Servicios;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,16 @@ builder.Services.AddScoped<FitGymMVC.Servicios.Interfaces.IClasesServicio, FitGy
 builder.Services.AddScoped<FitGymMVC.Servicios.Interfaces.IReservasServicio, FitGymMVC.Servicios.ReservasServicio>();
 
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Usuarios/Login";             // Ruta donde se redirige si no está autenticado 
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Tiempo de expiración de la cookie
+    });
+
+builder.Services.AddAuthorization();
+
+
 var app = builder.Build();
 
 
@@ -36,7 +47,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthorization();
+app.UseAuthentication(); // Importante
+app.UseAuthorization(); //basada en el rol
+
 
 // Define la ruta por defecto del proyecto: HomeController -> Bienvenida.cshtml
 app.MapControllerRoute(

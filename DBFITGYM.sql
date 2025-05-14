@@ -10,7 +10,9 @@ CREATE TABLE Usuarios(
 	Nombre VARCHAR(100),
 	Telefono VARCHAR(15),
 	Correo NVARCHAR(100),
-	FechaNacimiento DATE
+	FechaNacimiento DATE,
+	TipoUsuario VARCHAR(15) CHECK (TipoUsuario IN ('Cliente','Administrador','Entrenador')),
+	Contraseña VARCHAR(100)
 );
 GO
 
@@ -60,15 +62,14 @@ CREATE TABLE Reservas (
 GO
 
 
-
-
-INSERT INTO Usuarios (Cedula, Nombre, Telefono, Correo, FechaNacimiento) VALUES
-('1001001001', 'Laura Gómez', '3115551234', 'laura@example.com', '1995-04-15'),
-('1001001002', 'Carlos Pérez', '3104445678', 'carlos@example.com', '1989-09-10'),
-('1001001003', 'Daniela Restrepo', '3123331122', 'daniela@example.com', '2000-01-20'),
-('1001001004', 'Juan Torres', '3007778899', 'juan@example.com', '1992-07-05'),
-('1001001005', 'María Álvarez', '3016667788', 'maria@example.com', '1997-11-30');
+INSERT INTO Usuarios (Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario, Contraseña) VALUES
+('1001001001', 'Laura Gómez', '3115551234', 'laura@example.com', '1995-04-15', 'Cliente', 'password123'),
+('1001001002', 'Carlos Pérez', '3104445678', 'carlos@example.com', '1989-09-10', 'Administrador', 'adminpass456'),
+('1001001003', 'Daniela Restrepo', '3123331122', 'daniela@example.com', '2000-01-20', 'Entrenador', 'trainer789'),
+('1001001004', 'Juan Torres', '3007778899', 'juan@example.com', '1992-07-05', 'Cliente', 'juanpass123'),
+('1001001005', 'María Álvarez', '3016667788', 'maria@example.com', '1997-11-30', 'Entrenador', 'mariapass456');
 GO
+
 
 INSERT INTO Rutinas (Nombre, Descripcion, NivelDificultad) VALUES
 ('Cardio Básico', 'Rutina de calentamiento general', 'Fácil'),
@@ -121,29 +122,43 @@ INSERT INTO Reservas (IdUsuario, IdClase) VALUES
 (4, 4),
 (5, 5);
 GO
-
-
-CREATE PROCEDURE sp_ListarUsuarios AS SELECT * FROM Usuarios
+------------
+--USUARIOS--
+------------
+CREATE PROCEDURE sp_ListarUsuarios
+AS
+SELECT Id, Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario
+FROM Usuarios
 GO
+
 CREATE PROCEDURE sp_ObtenerUsuario(@Id INT) AS SELECT * FROM Usuarios WHERE Id = @Id
 GO
 CREATE PROCEDURE sp_BuscarUsuarioPorCedula
     @Cedula NVARCHAR(50)
 AS
 BEGIN
-    SELECT * 
+    SELECT Id, Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario
     FROM Usuarios
     WHERE Cedula = @Cedula;
 END
 GO
 
-CREATE PROCEDURE sp_GuardarUsuario(@Cedula VARCHAR(15), @Nombre VARCHAR(100), @Telefono VARCHAR(15), @Correo NVARCHAR(100), @FechaNacimiento DATE)
+CREATE PROCEDURE sp_GuardarUsuario
+(
+    @Cedula VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Telefono VARCHAR(15),
+    @Correo NVARCHAR(100),
+    @FechaNacimiento DATE,
+    @Contraseña VARCHAR(100)
+)
 AS
 BEGIN
-	INSERT INTO Usuarios(Cedula, Nombre, Telefono, Correo, FechaNacimiento)
-	VALUES (@Cedula, @Nombre, @Telefono, @Correo, @FechaNacimiento)
+    INSERT INTO Usuarios(Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario, Contraseña)
+    VALUES (@Cedula, @Nombre, @Telefono, @Correo, @FechaNacimiento, 'Cliente', @Contraseña)
 END
 GO
+
 CREATE PROCEDURE sp_EditarUsuario(@Id INT, @Cedula VARCHAR(15), @Nombre VARCHAR(100), @Telefono VARCHAR(15), @Correo NVARCHAR(100), @FechaNacimiento DATE)
 AS
 BEGIN
@@ -153,7 +168,21 @@ GO
 CREATE PROCEDURE sp_EliminarUsuario(@Id INT) AS DELETE FROM Usuarios WHERE Id = @Id
 GO
 
+CREATE PROCEDURE sp_ValidarUsuario
+    @Correo NVARCHAR(100),
+    @Contraseña NVARCHAR(100) 
+AS
+BEGIN
+    SELECT Id, Correo, TipoUsuario
+    FROM Usuarios
+    WHERE Correo = @Correo AND Contraseña = @Contraseña; 
+END
+GO
 
+
+-----------
+--RUTINAS--
+-----------
 CREATE PROCEDURE sp_ListarRutinas AS SELECT * FROM Rutinas
 GO
 CREATE PROCEDURE sp_ObtenerRutina(@Id INT) AS SELECT * FROM Rutinas WHERE Id = @Id
@@ -175,7 +204,9 @@ GO
 CREATE PROCEDURE sp_EliminarRutina(@Id INT) AS DELETE FROM Rutinas WHERE Id = @Id
 GO
 
-
+--------------
+--EJERCICIOS--
+--------------
 CREATE PROCEDURE sp_ListarEjercicios
 AS
 SELECT * FROM Ejercicios
@@ -215,6 +246,9 @@ AS
 DELETE FROM Ejercicios WHERE Id = @Id
 GO
 
+------------------------
+--RUTINAS X EJERCICIOS--
+------------------------
 CREATE PROCEDURE sp_ListarRutinaEjercicios
 AS
 SELECT * FROM RutinaEjercicio
@@ -255,7 +289,25 @@ AS
 DELETE FROM RutinaEjercicio WHERE Id = @Id
 GO
 
+CREATE PROCEDURE sp_ListarRutinasConEjercicios
+AS
+BEGIN
+    SELECT 
+        R.Id AS IdRutina,
+        R.Nombre AS NombreRutina,
+        R.Descripcion,
+        R.NivelDificultad,
+        E.Nombre AS NombreEjercicio
+    FROM Rutinas R
+    INNER JOIN RutinaEjercicio RE ON R.Id = RE.IdRutina
+    INNER JOIN Ejercicios E ON RE.IdEjercicio = E.Id
+    ORDER BY R.Id;
+END;
+GO
 
+----------
+--CLASES--
+----------
 CREATE PROCEDURE sp_ListarClases AS SELECT * FROM Clases
 GO
 CREATE PROCEDURE sp_ObtenerClase(@Id INT) AS SELECT * FROM Clases WHERE Id = @Id
@@ -287,7 +339,9 @@ GO
 CREATE PROCEDURE sp_EliminarClase(@Id INT) AS DELETE FROM Clases WHERE Id = @Id
 GO
 
-
+------------
+--RESERVAS--
+------------
 CREATE PROCEDURE sp_ListarReservas AS SELECT * FROM Reservas
 GO
 CREATE PROCEDURE sp_ObtenerReserva(@Id INT) AS SELECT * FROM Reservas WHERE Id = @Id
@@ -311,18 +365,4 @@ GO
 CREATE PROCEDURE sp_EliminarReserva(@Id INT) AS DELETE FROM Reservas WHERE Id = @Id
 GO
 
-CREATE PROCEDURE sp_ListarRutinasConEjercicios
-AS
-BEGIN
-    SELECT 
-        R.Id AS IdRutina,
-        R.Nombre AS NombreRutina,
-        R.Descripcion,
-        R.NivelDificultad,
-        E.Nombre AS NombreEjercicio
-    FROM Rutinas R
-    INNER JOIN RutinaEjercicio RE ON R.Id = RE.IdRutina
-    INNER JOIN Ejercicios E ON RE.IdEjercicio = E.Id
-    ORDER BY R.Id;
-END;
-GO
+

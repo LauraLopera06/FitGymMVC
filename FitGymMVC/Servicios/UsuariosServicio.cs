@@ -34,5 +34,10 @@ namespace FitGymMVC.Servicios
                 return _repository.Guardar(usuario);
 
         }
+
+        public Usuarioslogin Login(string correo, string contraseña)
+        {
+            return _repository.ValidarUsuario(correo, contraseña);
+        }
     }
 }
