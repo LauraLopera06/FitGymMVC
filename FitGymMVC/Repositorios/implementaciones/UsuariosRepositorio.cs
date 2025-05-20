@@ -40,7 +40,7 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                                 Telefono = dr["Telefono"].ToString(),
                                 Correo = dr["Correo"].ToString(),
                                 FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
-                                TipoUsuario = dr["Nombre"].ToString()
+                                TipoUsuario = dr["TipoUsuario"].ToString()
                             });
                         }
                     }
@@ -79,7 +79,7 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                                 Telefono = dr["Telefono"].ToString(),
                                 Correo = dr["Correo"].ToString(),
                                 FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
-                                TipoUsuario = dr["Nombre"].ToString()
+                                TipoUsuario = dr["TipoUsuario"].ToString()
                             };
                         }
                     }
@@ -113,7 +113,7 @@ public class UsuariosRepositorio : IUsuariosRepositorio
                             Telefono = dr["Telefono"].ToString(),
                             Correo = dr["Correo"].ToString(),
                             FechaNacimiento = Convert.ToDateTime(dr["FechaNacimiento"]),
-                            TipoUsuario = dr["Nombre"].ToString()
+                            TipoUsuario = dr["TipoUsuario"].ToString()
                         };
                     }
                 }
@@ -169,5 +169,56 @@ public class UsuariosRepositorio : IUsuariosRepositorio
 
             return null;
         }
+        public bool EditarUsuario(UsuariosModel usuario)
+        {
+            using (var conexion = new SqlConnection(_cadenaSQL))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_EditarUsuario", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", usuario.Id);
+                cmd.Parameters.AddWithValue("@Cedula", usuario.Cedula);
+                cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
+                cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
+                cmd.Parameters.AddWithValue("@Correo", usuario.Correo);
+                cmd.Parameters.AddWithValue("@FechaNacimiento", usuario.FechaNacimiento);
+                cmd.Parameters.AddWithValue("@TipoUsuario", usuario.TipoUsuario);
+
+                int filasAfectadas = cmd.ExecuteNonQuery();
+                return filasAfectadas > 0; // true si se actualizó correctamente
+            }
+        }
+        public bool EliminarCliente(int id)
+        {
+            using (var conexion = new SqlConnection(_cadenaSQL))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_EliminarCliente", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                int filasAfectadas = cmd.ExecuteNonQuery();
+                return filasAfectadas > 0;
+            }
+        }
+        public bool AgregarCliente(int idUsuario)
+        {
+            using (var conexion = new SqlConnection(_cadenaSQL))
+            {
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("sp_AgregarCliente", conexion);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Id", idUsuario);
+
+                int filasAfectadas = cmd.ExecuteNonQuery();
+
+                return filasAfectadas > 0; // true si se insertó correctamente
+            }
+        }
+
+
     }
 }

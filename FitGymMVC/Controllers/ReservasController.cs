@@ -2,6 +2,7 @@
 using FitGymMVC.Servicios;
 using FitGymMVC.Servicios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FitGymMVC.Controllers
 {
@@ -59,6 +60,25 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult RedireccionarPorRol()
+        {
+            var rol = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            switch (rol)
+            {
+                case "Administrador":
+                    return RedirectToAction("InicioAdmin", "Administrador");
+                case "Entrenador":
+                    return RedirectToAction("InicioEntrenador", "Entrenador");
+                case "Cliente":
+                    return RedirectToAction("InicioCliente", "Cliente");
+                default:
+                    return RedirectToAction("Bienvenida", "Home"); // Redirección segura por defecto
+            }
+        }
+
     }
 
 }

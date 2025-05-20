@@ -1,0 +1,74 @@
+﻿@model List<FitGymMVC.Models.UsuariosModel>
+@{
+    ViewData["Title"] = "Lista de Usuarios";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Admin</title>
+    <link rel="stylesheet" href="~/css/ListarRutinas.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado">
+            <h2>Usuarios Registrados</h2>
+        </div>
+
+        @if (TempData["Mensaje"] != null)
+        {
+            <div class="alert alert-success" style="margin-bottom:15px;">
+                @TempData["Mensaje"]
+            </div>
+        }
+        @if (TempData["MensajeError"] != null)
+        {
+            <div class="alert alert-danger" style="margin-bottom:15px;">
+                @TempData["MensajeError"]
+            </div>
+        }
+        <div class="cuadro-blanco-scroll">
+            @foreach (var usuario in Model)
+            {
+                <div class="item-clase">
+                    <div style="display: flex; flex-direction: column;">
+                        <strong style="font-size: 16px; color: #8000aa;">@usuario.Nombre</strong>
+                        <span style="font-size: 15px; color: #555;">Cédula: @usuario.Cedula</span>
+                        <span style="font-size: 15px; color: #555;">Teléfono: @usuario.Telefono</span>
+                        <span style="font-size: 15px; color: #555;">Correo: @usuario.Correo</span>
+                        <span style="font-size: 15px; color: #555;">Edad: @usuario.Edad</span>
+                        <span style="font-size: 15px; color: #555;">Rol: @usuario.TipoUsuario</span>
+                    </div>
+
+                    <form asp-controller="Administrador" asp-action="CambiarRol" method="post" class="form-cambiar-rol">
+                        <input type="hidden" name="Cedula" value="@usuario.Cedula" />
+                        <select name="NuevoRol" class="select-rol">
+                            @if (usuario.TipoUsuario != "Cliente")
+                            {
+                                <option value="Cliente">Cliente</option>
+                            }
+                            @if (usuario.TipoUsuario != "Administrador")
+                            {
+                                <option value="Administrador">Administrador</option>
+                            }
+                            @if (usuario.TipoUsuario != "Entrenador")
+                            {
+                                <option value="Entrenador">Entrenador</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn-clonar">Cambiar Rol</button>
+                    </form>
+
+                </div>
+            }
+
+        </div>
+
+        <div class="botones">
+            <a asp-controller="Administrador" asp-action="InicioAdmin" class="btn salir">SALIR</a>
+        </div>
+    </div>
+</body>
+</html>

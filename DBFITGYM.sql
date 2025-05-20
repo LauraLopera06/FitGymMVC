@@ -15,6 +15,15 @@ CREATE TABLE Usuarios(
 	Contraseña VARCHAR(100)
 );
 GO
+CREATE TABLE Clientes (
+    Id INT PRIMARY KEY, 
+    Altura DECIMAL(5,2),
+    Peso DECIMAL(5,2),
+    PorcentajeGrasa INT,
+    EstadoMembresia BIT,
+    FOREIGN KEY (Id) REFERENCES Usuarios(Id)
+);
+GO
 
 CREATE TABLE Rutinas(
 	Id INT PRIMARY KEY IDENTITY(1,1),
@@ -68,6 +77,11 @@ INSERT INTO Usuarios (Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsu
 ('1001001003', 'Daniela Restrepo', '3123331122', 'daniela@example.com', '2000-01-20', 'Entrenador', 'trainer789'),
 ('1001001004', 'Juan Torres', '3007778899', 'juan@example.com', '1992-07-05', 'Cliente', 'juanpass123'),
 ('1001001005', 'María Álvarez', '3016667788', 'maria@example.com', '1997-11-30', 'Entrenador', 'mariapass456');
+GO
+
+INSERT INTO Clientes (Id, Altura, Peso, PorcentajeGrasa, EstadoMembresia) VALUES
+(1, 1.65, 58.5, 22, 1),  
+(4, 1.78, 74.2, 18, 1);  
 GO
 
 
@@ -133,6 +147,7 @@ GO
 
 CREATE PROCEDURE sp_ObtenerUsuario(@Id INT) AS SELECT * FROM Usuarios WHERE Id = @Id
 GO
+
 CREATE PROCEDURE sp_BuscarUsuarioPorCedula
     @Cedula NVARCHAR(50)
 AS
@@ -156,19 +171,39 @@ AS
 BEGIN
     INSERT INTO Usuarios(Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario, Contraseña)
     VALUES (@Cedula, @Nombre, @Telefono, @Correo, @FechaNacimiento, 'Cliente', @Contraseña)
+
+    DECLARE @NuevoId INT = SCOPE_IDENTITY() --devuelve el Id autogenerado por el último INSERT
+
+    INSERT INTO Clientes(Id, Altura, Peso, PorcentajeGrasa, EstadoMembresia)
+    VALUES (@NuevoId, NULL, NULL, NULL, NULL)
 END
 GO
 
-CREATE PROCEDURE sp_EditarUsuario(@Id INT, @Cedula VARCHAR(15), @Nombre VARCHAR(100), @Telefono VARCHAR(15), @Correo NVARCHAR(100), @FechaNacimiento DATE)
+CREATE PROCEDURE sp_EditarUsuario
+    @Id INT,
+    @Cedula VARCHAR(15),
+    @Nombre VARCHAR(100),
+    @Telefono VARCHAR(15),
+    @Correo NVARCHAR(100),
+    @FechaNacimiento DATE,
+    @TipoUsuario VARCHAR(50)
 AS
 BEGIN
-	UPDATE Usuarios SET Cedula = @Cedula, Nombre = @Nombre, Telefono = @Telefono, Correo = @Correo, FechaNacimiento = @FechaNacimiento WHERE Id = @Id
+    UPDATE Usuarios
+    SET Cedula = @Cedula,
+        Nombre = @Nombre,
+        Telefono = @Telefono,
+        Correo = @Correo,
+        FechaNacimiento = @FechaNacimiento,
+        TipoUsuario = @TipoUsuario
+    WHERE Id = @Id
 END
 GO
+
 CREATE PROCEDURE sp_EliminarUsuario(@Id INT) AS DELETE FROM Usuarios WHERE Id = @Id
 GO
 
-CREATE PROCEDURE sp_ValidarUsuario
+CREATE PROCEDURE sp_ValidarUsuario --para el login
     @Correo NVARCHAR(100),
     @Contraseña NVARCHAR(100) 
 AS
@@ -176,6 +211,24 @@ BEGIN
     SELECT Id, Correo, TipoUsuario
     FROM Usuarios
     WHERE Correo = @Correo AND Contraseña = @Contraseña; 
+END
+GO
+
+CREATE PROCEDURE sp_AgregarCliente
+    @Id INT
+AS
+BEGIN
+    INSERT INTO Clientes (Id, Altura, Peso, PorcentajeGrasa, EstadoMembresia)
+    VALUES (@Id, 0.0, 0.0, 0, 0)
+END
+GO
+
+
+CREATE PROCEDURE sp_EliminarCliente(@Id INT)--para el cambio de rol
+AS
+BEGIN
+    DELETE FROM Clientes
+    WHERE Id = @Id;
 END
 GO
 

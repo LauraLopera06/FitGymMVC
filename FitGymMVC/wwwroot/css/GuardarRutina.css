@@ -163,3 +163,17 @@
         background-color: #5e007c;
     }
 
+.form-cambiar-rol {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.select-rol {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+}

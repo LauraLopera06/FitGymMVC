@@ -17,21 +17,7 @@ namespace FitGymMVC.Controllers
         {
             _servicio = service; //ineyccion de dependencias
         }
-        [Authorize]
-        public IActionResult Listar() //debe haber una vista Listar en /views/usuarios así con el resto
-        {
-            try
-            {
-                var objLista = _servicio.Listar();
 
-                return View(objLista);
-            }
-            catch (Exception)
-            {
-                return View("~/Views/Shared/Error.cshtml");
-            }
-            
-        }
         public IActionResult Guardar() //mostrar formulario para guardar.
         {
             return View();
@@ -53,7 +39,7 @@ namespace FitGymMVC.Controllers
 
             if (respuesta)
             {
-                return RedirectToAction("CuentaCreada");
+                return RedirectToAction("InicioAdmin", "Administrador");//se debe redireccionar al login del cliente
             }
             else {
                 return View("~/Views/Shared/Error.cshtml");
@@ -82,7 +68,18 @@ namespace FitGymMVC.Controllers
                 var principal = new ClaimsPrincipal(identity); // Se crea el "principal" que representa al usuario autenticado
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);// Se registra la sesión del usuario (se emite la cookie de autenticación)
-                return RedirectToAction("InicioUsuario");
+                
+                switch (usuario.TipoUsuario)
+                {
+                    case "Administrador":
+                        return RedirectToAction("InicioAdmin", "Administrador");
+                    case "Entrenador":
+                        return RedirectToAction("InicioEntrenador", "Entrenador");
+                    case "Cliente":
+                        return RedirectToAction("InicioCliente", "Cliente");
+                    default:
+                        return RedirectToAction("Bienvenida", "Home"); // Fallback
+                }
             }
 
             ViewBag.Error = "Correo o contraseña incorrectos";
@@ -95,12 +92,8 @@ namespace FitGymMVC.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //elimina la cookie
             return RedirectToAction("Login");//redirige al login
         }
-        [Authorize]
-        public IActionResult InicioUsuario()
-        {
-            return View();
-        }
-
+        
+    
         public IActionResult Ayuda()
         {
             return View();

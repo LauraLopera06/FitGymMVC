@@ -39,5 +39,6 @@ namespace FitGymMVC.Servicios
         {
             return _repository.ValidarUsuario(correo, contraseña);
         }
+
     }
 }
