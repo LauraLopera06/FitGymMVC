@@ -27,6 +27,8 @@ builder.Services.AddScoped<FitGymMVC.Servicios.Interfaces.IRutinaEjercicioServic
 builder.Services.AddScoped<FitGymMVC.Servicios.Interfaces.IClasesServicio, FitGymMVC.Servicios.ClasesServicio>();
 builder.Services.AddScoped<FitGymMVC.Servicios.Interfaces.IReservasServicio, FitGymMVC.Servicios.ReservasServicio>();
 
+//Servicio de Email
+builder.Services.AddTransient<IEmailServicio, EmailServicio>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

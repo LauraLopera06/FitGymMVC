@@ -12,10 +12,11 @@ namespace FitGymMVC.Controllers
     public class UsuariosController : Controller
     {
         private readonly IUsuariosServicio _servicio;
-
-        public UsuariosController(IUsuariosServicio service)
+        private readonly IEmailServicio _emailServicio;
+        public UsuariosController(IUsuariosServicio service, IEmailServicio emailServicio)
         {
             _servicio = service; //ineyccion de dependencias
+            _emailServicio = emailServicio;
         }
 
         public IActionResult Guardar() //mostrar formulario para guardar.
@@ -29,7 +30,7 @@ namespace FitGymMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Guardar(UsuariosModel objUsuario) 
+        public async Task<IActionResult> Guardar(UsuariosModel objUsuario) 
         {
             if (!ModelState.IsValid)
             {
@@ -39,7 +40,17 @@ namespace FitGymMVC.Controllers
 
             if (respuesta)
             {
-                return RedirectToAction("InicioAdmin", "Administrador");//se debe redireccionar al login del cliente
+                var correoEnviado = await _emailServicio.EnviarEmail(
+                    emailReceptor: objUsuario.Correo,
+                    tema: "Bienvenido a FitGym",
+                    cuerpo: "<h3>¡Gracias por registrarte en FitGym!</h3><p>Tu cuenta ha sido creada correctamente.</p>");
+                
+                if (!correoEnviado)
+                {
+                    return View("~/Views/Shared/Error.cshtml");
+                }
+                return RedirectToAction("InicioCliente", "Cliente");
+
             }
             else {
                 return View("~/Views/Shared/Error.cshtml");
@@ -92,8 +103,25 @@ namespace FitGymMVC.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); //elimina la cookie
             return RedirectToAction("Login");//redirige al login
         }
-        
-    
+
+        [HttpGet]
+        public IActionResult RedireccionarPorRol()
+        {
+            var rol = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            switch (rol)
+            {
+                case "Administrador":
+                    return RedirectToAction("InicioAdmin", "Administrador");
+                case "Entrenador":
+                    return RedirectToAction("InicioEntrenador", "Entrenador");
+                case "Cliente":
+                    return RedirectToAction("InicioCliente", "Cliente");
+                default:
+                    return RedirectToAction("Bienvenida", "Home"); // Redirección segura por defecto
+            }
+        }
+
         public IActionResult Ayuda()
         {
             return View();

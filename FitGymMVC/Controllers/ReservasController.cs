@@ -11,13 +11,15 @@ namespace FitGymMVC.Controllers
         private readonly IReservasServicio _servicio;
         private readonly IClasesServicio _clasesServicio;
         private readonly IUsuariosServicio _usuariosServicio;
+        private readonly IEmailServicio _emailServicio;
 
 
-        public ReservasController(IReservasServicio service, IClasesServicio clasesServicio, IUsuariosServicio usuariosServicio)
+        public ReservasController(IReservasServicio service, IClasesServicio clasesServicio, IUsuariosServicio usuariosServicio, IEmailServicio emailServicio)
         {
             _servicio = service;
             _clasesServicio = clasesServicio;
             _usuariosServicio = usuariosServicio;
+            _emailServicio = emailServicio;
         }
         public IActionResult Listar()
         {
@@ -41,14 +43,23 @@ namespace FitGymMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Guardar(string CedulaUsuario, string NombreClaseSeleccionada)
+        public async Task<IActionResult> Guardar(string CedulaUsuario, string NombreClaseSeleccionada)
         {
             var resultado = _servicio.Guardar(CedulaUsuario, NombreClaseSeleccionada);
 
             if (resultado.Exito)
             {
+                var correoUsuario = _usuariosServicio.BuscarPorCedula(CedulaUsuario).Correo;
+
+                await _emailServicio.EnviarEmail(
+                    emailReceptor: correoUsuario,
+                    tema: "Reserva Confirmada - FitGym",
+                    cuerpo: $"<h3>¡Hola!</h3><p>Tu clase <strong>{NombreClaseSeleccionada}</strong> ha sido reservada exitosamente. Nos vemos pronto 💪</p>"
+                );
+
                 return RedirectToAction("ReservaCreada");
             }
+
 
             var clases = _clasesServicio.Listar();
             ViewBag.ListaClases = clases;
@@ -61,23 +72,7 @@ namespace FitGymMVC.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult RedireccionarPorRol()
-        {
-            var rol = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            switch (rol)
-            {
-                case "Administrador":
-                    return RedirectToAction("InicioAdmin", "Administrador");
-                case "Entrenador":
-                    return RedirectToAction("InicioEntrenador", "Entrenador");
-                case "Cliente":
-                    return RedirectToAction("InicioCliente", "Cliente");
-                default:
-                    return RedirectToAction("Bienvenida", "Home"); // Redirección segura por defecto
-            }
-        }
+        
 
     }
 

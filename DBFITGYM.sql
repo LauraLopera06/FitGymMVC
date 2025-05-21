@@ -9,7 +9,7 @@ CREATE TABLE Usuarios(
 	Cedula VARCHAR(15)UNIQUE,
 	Nombre VARCHAR(100),
 	Telefono VARCHAR(15),
-	Correo NVARCHAR(100),
+	Correo NVARCHAR(100)UNIQUE,
 	FechaNacimiento DATE,
 	TipoUsuario VARCHAR(15) CHECK (TipoUsuario IN ('Cliente','Administrador','Entrenador')),
 	Contraseña VARCHAR(100)
@@ -72,9 +72,9 @@ GO
 
 
 INSERT INTO Usuarios (Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario, Contraseña) VALUES
-('1001001001', 'Laura Gómez', '3115551234', 'laura@example.com', '1995-04-15', 'Cliente', 'password123'),
-('1001001002', 'Carlos Pérez', '3104445678', 'carlos@example.com', '1989-09-10', 'Administrador', 'adminpass456'),
-('1001001003', 'Daniela Restrepo', '3123331122', 'daniela@example.com', '2000-01-20', 'Entrenador', 'trainer789'),
+('1', 'Laura Lopera', '3115551234', 'Lala0604lm@gmail.com', '2004-01-01', 'Cliente', 'password123'),
+('2', 'Emanuel Cardona', '3104445678', 'ema795ps4@gmail.com', '2004-01-01', 'Administrador', 'adminpass456'),
+('3', 'Kevin Castaño', '3123331122', 'kevin105066@gmail.com', '2004-09-25', 'Entrenador', 'trainer789'),
 ('1001001004', 'Juan Torres', '3007778899', 'juan@example.com', '1992-07-05', 'Cliente', 'juanpass123'),
 ('1001001005', 'María Álvarez', '3016667788', 'maria@example.com', '1997-11-30', 'Entrenador', 'mariapass456');
 GO

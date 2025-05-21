@@ -126,21 +126,30 @@ public class UsuariosRepositorio : IUsuariosRepositorio
         public bool Guardar(UsuariosModel usuario)
     {
 
-        using (var conexion = new SqlConnection(_cadenaSQL))
+            try
             {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand("sp_GuardarUsuario", conexion);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("Nombre", usuario.Nombre);
-                cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
-                cmd.Parameters.AddWithValue("Telefono", usuario.Telefono);
-                cmd.Parameters.AddWithValue("Correo", usuario.Correo);
-                cmd.Parameters.AddWithValue("FechaNacimiento", usuario.FechaNacimiento);
-                cmd.Parameters.AddWithValue("Contraseña", usuario.Contraseña);
+                using (var conexion = new SqlConnection(_cadenaSQL))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("sp_GuardarUsuario", conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("Nombre", usuario.Nombre);
+                    cmd.Parameters.AddWithValue("Cedula", usuario.Cedula);
+                    cmd.Parameters.AddWithValue("Telefono", usuario.Telefono);
+                    cmd.Parameters.AddWithValue("Correo", usuario.Correo);
+                    cmd.Parameters.AddWithValue("FechaNacimiento", usuario.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("Contraseña", usuario.Contraseña);
 
-                cmd.ExecuteNonQuery();
-                return true;
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
             }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        
     }
 
         public Usuarioslogin ValidarUsuario(string correo, string contraseña)
@@ -171,23 +180,33 @@ public class UsuariosRepositorio : IUsuariosRepositorio
         }
         public bool EditarUsuario(UsuariosModel usuario)
         {
-            using (var conexion = new SqlConnection(_cadenaSQL))
+
+            try
             {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand("sp_EditarUsuario", conexion);
-                cmd.CommandType = CommandType.StoredProcedure;
+                using (var conexion = new SqlConnection(_cadenaSQL))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("sp_EditarUsuario", conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Id", usuario.Id);
-                cmd.Parameters.AddWithValue("@Cedula", usuario.Cedula);
-                cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
-                cmd.Parameters.AddWithValue("@Correo", usuario.Correo);
-                cmd.Parameters.AddWithValue("@FechaNacimiento", usuario.FechaNacimiento);
-                cmd.Parameters.AddWithValue("@TipoUsuario", usuario.TipoUsuario);
+                    cmd.Parameters.AddWithValue("@Id", usuario.Id);
+                    cmd.Parameters.AddWithValue("@Cedula", usuario.Cedula);
+                    cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
+                    cmd.Parameters.AddWithValue("@Telefono", usuario.Telefono);
+                    cmd.Parameters.AddWithValue("@Correo", usuario.Correo);
+                    cmd.Parameters.AddWithValue("@FechaNacimiento", usuario.FechaNacimiento);
+                    cmd.Parameters.AddWithValue("@TipoUsuario", usuario.TipoUsuario);
 
-                int filasAfectadas = cmd.ExecuteNonQuery();
-                return filasAfectadas > 0; // true si se actualizó correctamente
+                    int filasAfectadas = cmd.ExecuteNonQuery();
+                    return filasAfectadas > 0; // true si se actualizó correctamente
+                }
             }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            
         }
         public bool EliminarCliente(int id)
         {

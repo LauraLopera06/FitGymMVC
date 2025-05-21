@@ -31,7 +31,12 @@ namespace FitGymMVC.Servicios
 
         public bool Guardar(UsuariosModel usuario) 
         {
+            var yaExiste = BuscarPorCedula(usuario.Cedula);
+            if (yaExiste == null)
+            {
                 return _repository.Guardar(usuario);
+            }
+            return false;
 
         }
 
