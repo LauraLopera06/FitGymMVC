@@ -43,14 +43,14 @@
             <span class="cerrar-sidebar-js" onclick="cerrarSidebar()">X</span>
 
             <ul class="sidebar-menu-js">
-                <li><a asp-controller="Usuarios" asp-action="Cuenta">CUENTA</a></li>
-                <li><a asp-controller="Clases" asp-action="Listar">CLASES</a></li>
-                <li><a asp-controller="Rutinas" asp-action="Listar">RUTINA</a></li>
-                <li><a asp-controller="Seguimiento" asp-action="Index">SEGUIMIENTO</a></li>
+                <li><a asp-controller="Usuarios" asp-action="RedireccionarPorRol">CUENTA</a></li>
+                <li><a asp-controller="Reservas" asp-action="guardar">CLASES</a></li>
+                <li><a asp-controller="Usuarios" asp-action="RedireccionarPorRol">RUTINA</a></li>
+                <li><a asp-controller="Usuarios" asp-action="RedireccionarPorRol">SEGUIMIENTO</a></li>
 
-                <li><a asp-controller="Home" asp-action="AcercaDe">ACERCA DE</a></li>
+                <li><a asp-controller="Usuarios" asp-action="RedireccionarPorRol">ACERCA DE</a></li>
             </ul>
-
+            azz
             <a asp-controller="Usuarios" asp-action="Logout" class="btn-cerrar-sesion-js">CERRAR SESIÓN</a>
         </nav>
     </div>

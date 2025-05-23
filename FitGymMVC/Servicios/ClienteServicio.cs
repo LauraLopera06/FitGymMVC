@@ -13,5 +13,7 @@ namespace FitGymMVC.Servicios
             _repository = repository;//inyeccion de dependencias
         }
 
+
+
     }
 }

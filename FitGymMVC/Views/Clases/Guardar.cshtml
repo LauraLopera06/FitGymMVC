@@ -32,6 +32,16 @@
             <input asp-for="CuposLimites" type="number" class="form-input" placeholder="Cupos Límite" />
             <span asp-validation-for="CuposLimites" class="text-danger"></span>
 
+            <select asp-for="CedulaEntrenador" class="form-input">
+                <option value="">Seleccione un entrenador</option>
+                @foreach (var entrenador in ViewBag.ListaEntrenadores as List<FitGymMVC.Models.UsuariosModel>)
+                {
+                    <option value="@entrenador.Cedula">@entrenador.Nombre - @entrenador.Correo</option>
+                }
+            </select>
+            <span asp-validation-for="CedulaEntrenador" class="text-danger"></span>
+
+
             <input asp-for="HorarioInicio" type="time" class="form-input" placeholder="Horario de Inicio" />
             <span asp-validation-for="HorarioInicio" class="text-danger"></span>
 

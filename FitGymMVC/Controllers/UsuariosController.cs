@@ -47,14 +47,17 @@ namespace FitGymMVC.Controllers
                 
                 if (!correoEnviado)
                 {
-                    return View("~/Views/Shared/Error.cshtml");
+                    ModelState.AddModelError(string.Empty, "Ocurrió un error. Por favor, intenta nuevamente.");
+                    return View(objUsuario);
                 }
                 return RedirectToAction("InicioCliente", "Cliente");
 
             }
             else {
-                return View("~/Views/Shared/Error.cshtml");
+                ModelState.AddModelError(string.Empty, "Ya existe un usuario con esa cédula.");
+                return View(objUsuario);
             }
+
         }
         [HttpGet]
         public IActionResult Login()

@@ -2,6 +2,7 @@
 using System.Data;
 using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
+using System.Diagnostics;
 
 namespace FitGymMVC.Repositorios.Implementaciones { 
 public class ClasesRepositorio : IClasesRepositorio 
@@ -28,6 +29,7 @@ public class ClasesRepositorio : IClasesRepositorio
 
                     using (var dr = cmd.ExecuteReader())
                     {
+                        System.Diagnostics.Debug.WriteLine(">> Ejecutado reader");
                         while (dr.Read())
                         {
                             lista.Add(new ClasesModel()
@@ -38,7 +40,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 Fecha = dr["Fecha"].ToString(),
                                 HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                                 HorarioFin = (TimeSpan)dr["HorarioFin"],
-                                Descripcion = dr["Descripcion"].ToString()
+                                Descripcion = dr["Descripcion"].ToString(),
+                                CedulaEntrenador = dr["CedulaEntrenador"].ToString()
                             });
                         }
                     }
@@ -46,7 +49,8 @@ public class ClasesRepositorio : IClasesRepositorio
                 }
                 catch (Exception)
                 {
-                    return null;
+                    
+                    return lista;
                 }
             
         }
@@ -61,6 +65,7 @@ public class ClasesRepositorio : IClasesRepositorio
 
                 using (var conexion = new SqlConnection(_cadenaSQL))
                 {
+
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand("sp_ObtenerClase", conexion);
                     cmd.Parameters.AddWithValue("Id", id);
@@ -78,7 +83,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 Fecha = dr["Fecha"].ToString(),
                                 HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                                 HorarioFin = (TimeSpan)dr["HorarioFin"],
-                                Descripcion = dr["Descripcion"].ToString()
+                                Descripcion = dr["Descripcion"].ToString(),
+                                CedulaEntrenador = dr["CedulaEntrenador"].ToString()
                             };
                         }
                     }
@@ -112,7 +118,8 @@ public class ClasesRepositorio : IClasesRepositorio
                             Fecha = dr["Fecha"].ToString(),
                             HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                             HorarioFin = (TimeSpan)dr["HorarioFin"],
-                            Descripcion = dr["Descripcion"].ToString()
+                            Descripcion = dr["Descripcion"].ToString(),
+                            CedulaEntrenador = dr["CedulaEntrenador"].ToString()
                         };
                     }
                 }
@@ -136,6 +143,7 @@ public class ClasesRepositorio : IClasesRepositorio
                     cmd.Parameters.AddWithValue("HorarioFin", Clase.HorarioFin);
                     cmd.Parameters.AddWithValue("CuposLimites", Clase.CuposLimites);
                     cmd.Parameters.AddWithValue("Descripcion", Clase.Descripcion);
+                    cmd.Parameters.AddWithValue("CedulaEntrenador", Clase.CedulaEntrenador);
                     cmd.ExecuteNonQuery();
                     return true;
                 }

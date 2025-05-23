@@ -8,10 +8,16 @@ namespace FitGymMVC.Controllers
     public class ClasesController : Controller
     {
         private readonly IClasesServicio _servicio;
+        private readonly IEntrenadorServicio _servicioEntrenador;
+        private readonly IUsuariosServicio _servicioUsuario;
+        private readonly IEmailServicio _emailServicio;
 
-        public ClasesController(IClasesServicio service) 
+        public ClasesController(IClasesServicio service, IEntrenadorServicio servicioEntrenador, IUsuariosServicio servicioUsuario, IEmailServicio emailServicio) 
         {
             _servicio = service; //inyeccion de dependencias.
+            _servicioEntrenador = servicioEntrenador;
+            _servicioUsuario = servicioUsuario;
+            _emailServicio = emailServicio;
         }
         public IActionResult Listar() //es una vista.
         {
@@ -28,13 +34,16 @@ namespace FitGymMVC.Controllers
         }
         public IActionResult Guardar() //mostrar formulario para crear usuario.
         {
+            var entrenadores = _servicioEntrenador.Listar(); 
+            ViewBag.ListaEntrenadores = entrenadores;
             return View();
         }
         [HttpPost]
-        public IActionResult Guardar(ClasesModel objClase)
+        public async Task<IActionResult> Guardar(ClasesModel objClase)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.ListaEntrenadores = _servicioEntrenador.Listar();
                 return View(objClase);
             }
 
@@ -42,12 +51,28 @@ namespace FitGymMVC.Controllers
 
             if (respuesta.Exito)
             {
+                var entrenador = _servicioUsuario.BuscarPorCedula(objClase.CedulaEntrenador);
+
+                var correoEnviado = await _emailServicio.EnviarEmail(
+                emailReceptor: entrenador.Correo,
+                tema: "Nueva clase asignada - FitGym",
+                cuerpo: $"<h3>¡Hola {entrenador.Nombre}!</h3><p>Se te ha asignado la clase <strong>{objClase.Nombre}</strong> para el día <strong>{objClase.Fecha}</strong> de <strong>{objClase.HorarioInicio}</strong> a <strong>{objClase.HorarioFin}</strong>.</p>"
+                );
+
+                if (!correoEnviado)
+                {
+                    ViewBag.ListaEntrenadores = _servicioEntrenador.Listar();
+                    ModelState.AddModelError(string.Empty, "La clase fue creada, pero no se pudo enviar el correo al entrenador.");
+                    return View(objClase);
+                }
+
                 return RedirectToAction("ClaseCreada");
             }
             else
             {
+                ViewBag.ListaEntrenadores = _servicioEntrenador.Listar();
                 ModelState.AddModelError(string.Empty, respuesta.Mensaje); // mostramos el mensaje que venga
-                return View(objClase); // <-- volvemos a mostrar el formulario
+                return View(objClase); // volvemos a mostrar el formulario
             }
         }
 

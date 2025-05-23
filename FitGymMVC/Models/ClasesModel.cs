@@ -18,8 +18,9 @@ namespace FitGymMVC.Models
 
         [Required(ErrorMessage = "El campo Cupos Limites es obligatorio")]
         public int? CuposLimites { get; set; }
+        public string CedulaEntrenador { get; set; }
 
-        public string? Descripcion { get; set; }
+        public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "El campo Fecha es obligatorio")]
         public string? Fecha { get; set; }

@@ -55,10 +55,11 @@ CREATE TABLE Clases(
 	HorarioInicio TIME,
 	HorarioFin TIME,
 	CuposLimites INT,
+	CedulaEntrenador VARCHAR(15),
 	Descripcion VARCHAR(100),
-	Fecha VARCHAR(10)
+	Fecha VARCHAR(10),
 	CHECK (Fecha IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')),
-	CHECK (CuposLimites >= 0)
+	CHECK (CuposLimites >= 0),
 );
 GO
 
@@ -73,8 +74,8 @@ GO
 
 INSERT INTO Usuarios (Cedula, Nombre, Telefono, Correo, FechaNacimiento, TipoUsuario, Contraseña) VALUES
 ('1', 'Laura Lopera', '3115551234', 'Lala0604lm@gmail.com', '2004-01-01', 'Cliente', 'password123'),
-('2', 'Emanuel Cardona', '3104445678', 'ema795ps4@gmail.com', '2004-01-01', 'Administrador', 'adminpass456'),
-('3', 'Kevin Castaño', '3123331122', 'kevin105066@gmail.com', '2004-09-25', 'Entrenador', 'trainer789'),
+('2', 'Emanuel Cardona', '3104445678', 'ema795ps4@gmail.com', '2004-01-01', 'Entrenador', 'adminpass456'),
+('3', 'Kevin Castaño', '3123331122', 'kevin105066@gmail.com', '2004-09-25', 'Administrador', 'trainer789'),
 ('1001001004', 'Juan Torres', '3007778899', 'juan@example.com', '1992-07-05', 'Cliente', 'juanpass123'),
 ('1001001005', 'María Álvarez', '3016667788', 'maria@example.com', '1997-11-30', 'Entrenador', 'mariapass456');
 GO
@@ -121,13 +122,13 @@ INSERT INTO RutinaEjercicio (IdRutina, IdEjercicio) VALUES
 GO
 
 
-INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion) VALUES
-('Zumba', 'Lunes', '09:00', '10:00', 2, 'Clase de baile cardiovascular'),
-('Crossfit', 'Martes', '11:00', '12:00', 10, 'Entrenamiento funcional intenso'),
-('Yoga', 'Miércoles', '08:00', '09:00', 12, 'Clase de relajación y estiramiento'),
-('Spinning', 'Jueves', '18:00', '19:00', 20, 'Clase en bicicleta estacionaria'),
-('Pilates', 'Viernes', '07:00', '08:00', 10, 'Entrenamiento de control corporal');
-GO
+INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador) VALUES
+('Zumba', 'Lunes', '09:00', '10:00', 2, 'Clase de baile cardiovascular', '1001001005'), 
+('Crossfit', 'Martes', '11:00', '12:00', 10, 'Entrenamiento funcional intenso', '1001001005'),
+('Yoga', 'Miércoles', '08:00', '09:00', 12, 'Clase de relajación y estiramiento', '1001001005'),
+('Spinning', 'Jueves', '18:00', '19:00', 20, 'Clase en bicicleta estacionaria', '1001001005'),
+('Pilates', 'Viernes', '07:00', '08:00', 10, 'Entrenamiento de control corporal', '1001001005');
+
 
 INSERT INTO Reservas (IdUsuario, IdClase) VALUES
 (1, 1),
@@ -359,7 +360,7 @@ END;
 GO
 
 ----------
---CLASES--
+--CLASES-- 
 ----------
 CREATE PROCEDURE sp_ListarClases AS SELECT * FROM Clases
 GO
@@ -376,19 +377,46 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_GuardarClase(@Nombre VARCHAR(100), @Fecha VARCHAR(10), @HorarioInicio TIME, @HorarioFin TIME, @CuposLimites INT, @Descripcion VARCHAR(100))
+CREATE PROCEDURE sp_GuardarClase(
+	@Nombre VARCHAR(100), 
+	@Fecha VARCHAR(10), 
+	@HorarioInicio TIME, 
+	@HorarioFin TIME, 
+	@CuposLimites INT, 
+	@Descripcion VARCHAR(100),
+	@CedulaEntrenador VARCHAR(15)
+)
 AS
 BEGIN
-	INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion)
-	VALUES (@Nombre, @Fecha, @HorarioInicio, @HorarioFin, @CuposLimites, @Descripcion)
+	INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador)
+	VALUES (@Nombre, @Fecha, @HorarioInicio, @HorarioFin, @CuposLimites, @Descripcion, @CedulaEntrenador)
 END
 GO
-CREATE PROCEDURE sp_EditarClase(@Id INT, @Nombre VARCHAR(100), @Fecha VARCHAR(10), @HorarioInicio TIME, @HorarioFin TIME, @CuposLimites INT, @Descripcion VARCHAR(100))
+
+CREATE PROCEDURE sp_EditarClase(
+	@Id INT, 
+	@Nombre VARCHAR(100), 
+	@Fecha VARCHAR(10), 
+	@HorarioInicio TIME, 
+	@HorarioFin TIME, 
+	@CuposLimites INT, 
+	@Descripcion VARCHAR(100),
+	@CedulaEntrenador VARCHAR(15)
+)
 AS
 BEGIN
-	UPDATE Clases SET Nombre = @Nombre, Fecha = @Fecha, HorarioInicio = @HorarioInicio, HorarioFin = @HorarioFin, CuposLimites = @CuposLimites, Descripcion = @Descripcion WHERE Id = @Id
+	UPDATE Clases 
+	SET Nombre = @Nombre, 
+		Fecha = @Fecha, 
+		HorarioInicio = @HorarioInicio, 
+		HorarioFin = @HorarioFin, 
+		CuposLimites = @CuposLimites, 
+		Descripcion = @Descripcion,
+		CedulaEntrenador = @CedulaEntrenador
+	WHERE Id = @Id
 END
 GO
+
 CREATE PROCEDURE sp_EliminarClase(@Id INT) AS DELETE FROM Clases WHERE Id = @Id
 GO
 
