@@ -24,6 +24,13 @@ namespace FitGymMVC.Controllers
             try
             {
                 var objLista = _servicio.Listar();
+                _servicio.ActualizarEstadosAutomaticamente();
+
+                foreach (var clase in objLista)
+                {
+                    var entrenador = _servicioUsuario.BuscarPorCedula(clase.CedulaEntrenador);
+                    clase.CedulaEntrenador = entrenador?.Nombre ?? "Entrenador no encontrado"; // reutilizamos el campo para mostrar el nombre
+                }
 
                 return View(objLista);
             }
@@ -80,6 +87,19 @@ namespace FitGymMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Cancelar(int id)
+        {
+            _servicio.CambiarEstado(id, "Cancelada");
+            return RedirectToAction("Listar");
+        }
+
+        public IActionResult Programar(int id)
+        {
+            _servicio.CambiarEstado(id, "Programada");
+            return RedirectToAction("Listar");
+        }
+
 
     }
 

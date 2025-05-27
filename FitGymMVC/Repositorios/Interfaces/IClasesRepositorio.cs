@@ -7,7 +7,7 @@ namespace FitGymMVC.Repositorios.Interfaces
         List<ClasesModel> Listar();
         ClasesModel Buscar(int id);
         bool Guardar(ClasesModel Clase);
-
         ClasesModel BuscarPorNombre(string nombre);
+        bool CambiarEstado(int idClase, string nuevoEstado);
     }
 }

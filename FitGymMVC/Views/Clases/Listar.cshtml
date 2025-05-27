@@ -1,38 +1,54 @@
-﻿@model List<FitGymMVC.Models.RutinasModel>
+﻿@model List<FitGymMVC.Models.ClasesModel>
+
 @{
-    ViewData["Title"] = "Listar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Lista de Clases";
+    Layout = null;
 }
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>FitGym Clases</title>
+    <link rel="stylesheet" href="~/css/ListarRutinas.css" />
+</head>
+<body>
+    <div class="contenedor-central">
+        <div class="encabezado-morado">
+            <h2>Clases Registradas</h2>
+        </div>
 
-<div class="card">
-    <div class="card-header">
-        Listar Rutinas
+        <div class="cuadro-blanco-scroll">
+            @foreach (var clase in Model)
+            {
+                <div class="item-clase">
+                    <strong style="font-size: 16px; color: #8000aa;">@clase.Nombre</strong>
+
+                    <span style="font-size: 13px; color: #555; margin-bottom: 5px;">
+                        @clase.Descripcion
+                    </span>
+
+                    <ul style="margin: 0; padding-left: 16px; font-size: 13px; color: #333;">
+                        <li><strong>Horario:</strong> @clase.HorarioInicio - @clase.HorarioFin</li>
+                        <li><strong>Día:</strong> @clase.Fecha</li>
+                        <li><strong>Cupos:</strong> @clase.CuposLimites</li>
+                        <li><strong>Entrenador:</strong> @clase.CedulaEntrenador</li>
+                        <li><strong>Estado:</strong> @clase.Estado</li>
+                    </ul>
+
+                    <div class="botones-clase">
+                        <a asp-action="Cancelar" asp-route-id="@clase.Id" class="btn-clonar">CANCELAR</a>
+                        <a asp-action="Programar" asp-route-id="@clase.Id" class="btn-clonar">PROGRAMAR</a>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+
+        <div class="botones">
+            <a asp-controller="Administrador" asp-action="InicioAdmin" class="btn salir">SALIR</a>
+        </div>
     </div>
-    <div class="card-body">
-        <a asp-action="Guardar" asp-controller="Rutinas" class="btn btn-success">Crear nuevo</a>
-        <hr />
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Nivel de Diificultad</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Nombre</td>
-                        <td>@item.Descripcion</td>
-                        <td>@item.NivelDificultad</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-
-    </div>
-</div>
-
+</body>
+</html>

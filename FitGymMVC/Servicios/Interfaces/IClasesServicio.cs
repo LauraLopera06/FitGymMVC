@@ -8,5 +8,7 @@ namespace FitGymMVC.Servicios.Interfaces
         ClasesModel Buscar(int id);
         ClasesModel BuscarPorNombre(string nombre);
         (bool Exito, string Mensaje) Guardar(ClasesModel Clase);
+        bool CambiarEstado(int idClase, string nuevoEstado);
+        void ActualizarEstadosAutomaticamente();
     }
 }

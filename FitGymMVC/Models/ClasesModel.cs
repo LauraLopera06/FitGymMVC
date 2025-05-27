@@ -21,6 +21,7 @@ namespace FitGymMVC.Models
         public string CedulaEntrenador { get; set; }
 
         public string Descripcion { get; set; }
+        public string? Estado { get; set; }
 
         [Required(ErrorMessage = "El campo Fecha es obligatorio")]
         public string? Fecha { get; set; }

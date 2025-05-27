@@ -41,7 +41,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                                 HorarioFin = (TimeSpan)dr["HorarioFin"],
                                 Descripcion = dr["Descripcion"].ToString(),
-                                CedulaEntrenador = dr["CedulaEntrenador"].ToString()
+                                CedulaEntrenador = dr["CedulaEntrenador"].ToString(),
+                                Estado = dr["Estado"].ToString()
                             });
                         }
                     }
@@ -84,7 +85,8 @@ public class ClasesRepositorio : IClasesRepositorio
                                 HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                                 HorarioFin = (TimeSpan)dr["HorarioFin"],
                                 Descripcion = dr["Descripcion"].ToString(),
-                                CedulaEntrenador = dr["CedulaEntrenador"].ToString()
+                                CedulaEntrenador = dr["CedulaEntrenador"].ToString(),
+                                Estado = dr["Estado"].ToString()
                             };
                         }
                     }
@@ -119,7 +121,8 @@ public class ClasesRepositorio : IClasesRepositorio
                             HorarioInicio = (TimeSpan)dr["HorarioInicio"],
                             HorarioFin = (TimeSpan)dr["HorarioFin"],
                             Descripcion = dr["Descripcion"].ToString(),
-                            CedulaEntrenador = dr["CedulaEntrenador"].ToString()
+                            CedulaEntrenador = dr["CedulaEntrenador"].ToString(),
+                            Estado = dr["Estado"].ToString()
                         };
                     }
                 }
@@ -154,5 +157,31 @@ public class ClasesRepositorio : IClasesRepositorio
             }
         
     }
-}
+
+        public bool CambiarEstado(int idClase, string nuevoEstado)
+        {
+            try
+            {
+                using (var conexion = new SqlConnection(_cadenaSQL))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("sp_CambiarEstadoClase", conexion);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Id", idClase);
+                    cmd.Parameters.AddWithValue("@NuevoEstado", nuevoEstado);
+
+                    cmd.ExecuteNonQuery();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+
+    }
 }

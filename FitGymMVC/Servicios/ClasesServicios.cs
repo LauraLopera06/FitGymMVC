@@ -1,6 +1,7 @@
 ﻿using FitGymMVC.Repositorios.Interfaces;
 using FitGymMVC.Models;
 using FitGymMVC.Servicios.Interfaces;
+using System.Globalization;
 
 namespace FitGymMVC.Servicios
 {
@@ -50,5 +51,37 @@ namespace FitGymMVC.Servicios
             else
                 return (false, "Error al guardar la clase.");
         }
+
+        public bool CambiarEstado(int idClase, string nuevoEstado)
+        {
+            return _repository.CambiarEstado(idClase, nuevoEstado);
+        }
+        public void ActualizarEstadosAutomaticamente()
+        {
+            var todasLasClases = _repository.Listar();
+            var horaActual = DateTime.Now.TimeOfDay;
+            var diaActual = DateTime.Now.ToString("dddd", new CultureInfo("es-ES"));
+
+            var clasesDeHoy = todasLasClases
+                .Where(c => string.Equals(c.Fecha, diaActual, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            foreach (var clase in clasesDeHoy)
+            {
+                if (clase.Estado == "Programada" &&
+                    horaActual >= clase.HorarioInicio && horaActual < clase.HorarioFin)
+                {
+                    _repository.CambiarEstado(clase.Id, "EnCurso");
+                }
+                else if (clase.Estado == "EnCurso" &&
+                         horaActual >= clase.HorarioFin)
+                {
+                    _repository.CambiarEstado(clase.Id, "Programada");
+                }
+            }
+        }
+
+
+
     }
 }

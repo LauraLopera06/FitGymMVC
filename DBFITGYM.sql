@@ -49,7 +49,7 @@ CREATE TABLE RutinaEjercicio (
 GO
 
 
-CREATE TABLE Clases(
+CREATE TABLE Clases (
 	Id INT PRIMARY KEY IDENTITY(1,1),
 	Nombre VARCHAR(100),
 	HorarioInicio TIME,
@@ -58,10 +58,14 @@ CREATE TABLE Clases(
 	CedulaEntrenador VARCHAR(15),
 	Descripcion VARCHAR(100),
 	Fecha VARCHAR(10),
+	Estado VARCHAR(15) DEFAULT 'Programada', -- Estado por defecto
+
 	CHECK (Fecha IN ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')),
 	CHECK (CuposLimites >= 0),
+	CHECK (Estado IN ('Programada', 'EnCurso', 'Cancelada')) -- Validación de estados
 );
 GO
+
 
 CREATE TABLE Reservas (
     Id INT PRIMARY KEY IDENTITY(1,1),
@@ -122,12 +126,13 @@ INSERT INTO RutinaEjercicio (IdRutina, IdEjercicio) VALUES
 GO
 
 
-INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador) VALUES
-('Zumba', 'Lunes', '09:00', '10:00', 2, 'Clase de baile cardiovascular', '1001001005'), 
-('Crossfit', 'Martes', '11:00', '12:00', 10, 'Entrenamiento funcional intenso', '1001001005'),
-('Yoga', 'Miércoles', '08:00', '09:00', 12, 'Clase de relajación y estiramiento', '1001001005'),
-('Spinning', 'Jueves', '18:00', '19:00', 20, 'Clase en bicicleta estacionaria', '1001001005'),
-('Pilates', 'Viernes', '07:00', '08:00', 10, 'Entrenamiento de control corporal', '1001001005');
+INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador, Estado) 
+VALUES 
+('Zumba', 'Lunes', '09:00', '10:00', 2, 'Clase de baile cardiovascular', '1001001005', 'Programada'),
+('Crossfit', 'Martes', '11:00', '12:00', 10, 'Entrenamiento funcional intenso', '2', 'Programada'),
+('Yoga', 'Miércoles', '08:00', '09:00', 12, 'Clase de relajación y estiramiento', '1001001005', 'Programada'),
+('Spinning', 'Jueves', '18:00', '19:00', 20, 'Clase en bicicleta estacionaria', '2', 'Programada'),
+('Pilates', 'Viernes', '10:05', '12:00', 10, 'Entrenamiento de control corporal', '2', 'Programada');
 
 
 INSERT INTO Reservas (IdUsuario, IdClase) VALUES
@@ -388,8 +393,8 @@ CREATE PROCEDURE sp_GuardarClase(
 )
 AS
 BEGIN
-	INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador)
-	VALUES (@Nombre, @Fecha, @HorarioInicio, @HorarioFin, @CuposLimites, @Descripcion, @CedulaEntrenador)
+	INSERT INTO Clases (Nombre, Fecha, HorarioInicio, HorarioFin, CuposLimites, Descripcion, CedulaEntrenador, Estado)
+	VALUES (@Nombre, @Fecha, @HorarioInicio, @HorarioFin, @CuposLimites, @Descripcion, @CedulaEntrenador, 'Programada')
 END
 GO
 
@@ -416,6 +421,18 @@ BEGIN
 	WHERE Id = @Id
 END
 GO
+
+CREATE PROCEDURE sp_CambiarEstadoClase
+    @Id INT,
+    @NuevoEstado VARCHAR(15)
+AS
+BEGIN
+    UPDATE Clases
+    SET Estado = @NuevoEstado
+    WHERE Id = @Id;
+END
+GO
+
 
 CREATE PROCEDURE sp_EliminarClase(@Id INT) AS DELETE FROM Clases WHERE Id = @Id
 GO
